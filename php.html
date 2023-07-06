@@ -4,13 +4,36 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		canvas {
+			margin: 50px 0;
+		}
+
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+
+		tr, td, th {
+			border: 1px solid #ccc;
+			padding: 10px;
+		}
+
+		td {
+			text-align: right;
+		}
+	</style>
 </head>
 
 <body>
 	<h1>WordPress PHP version usage over time</h1>
 	<p>Stats collected from Wayback Machine snapshots of the PHP Version table on <a href="https://wordpress.org/about/stats/">wordpress.org/stats</a>. The numbers don't seem very reliable. I'm looking into it. The numbers for August 2023 are very roughly projected based on the two prior months.</p>
 	<div>
-		<canvas id="canvas"></canvas>
+		<canvas id="canvas" aria-label="WordPress PHP version usage graph. A tabular representation of this data is available below." role="img"></canvas>
+		<div id="table"></div>
 	</div>
 	<script>
 		const dataByMonth = {
@@ -406,6 +429,41 @@
 				}
 			}
 		});
+
+		// Dynamically construct a table in the DOM displaying the data from dataByMonth
+		const tableContainer = document.getElementById('table');
+		const table = document.createElement('table');
+		const tableHead = document.createElement('thead');
+		const tableBody = document.createElement('tbody');
+		const tableHeadRow = document.createElement('tr');
+		const tableHeadCell = document.createElement('th');
+		tableHeadCell.innerText = 'Month';
+		tableHeadRow.appendChild(tableHeadCell);
+		Object.keys(phpVersions).forEach((version) => {
+			const tableHeadCell = document.createElement('th');
+			tableHeadCell.innerText = `PHP ${version}`;
+			tableHeadCell.setAttribute('scope', 'col');
+			tableHeadRow.appendChild(tableHeadCell);
+		});
+		tableHead.appendChild(tableHeadRow);
+
+		Object.keys(dataByMonth).forEach((month) => {
+			const tableBodyRow = document.createElement('tr');
+			const tableBodyHead = document.createElement('th');
+			tableBodyHead.innerText = month;
+			tableBodyHead.setAttribute('scope', 'row');
+			tableBodyRow.appendChild(tableBodyHead);
+			Object.keys(phpVersions).forEach((version) => {
+				const tableBodyCell = document.createElement('td');
+				tableBodyCell.innerText = dataByMonth[month][version]+'%';
+				tableBodyRow.appendChild(tableBodyCell);
+			});
+			tableBody.appendChild(tableBodyRow);
+		});
+
+		tableContainer.appendChild(table);
+		table.appendChild(tableHead);
+		table.appendChild(tableBody);
 	</script>
 </body>
 
