@@ -1,0 +1,410 @@
+<html>
+
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+
+<body>
+	<div>
+		<canvas id="canvas"></canvas>
+	</div>
+	<script>
+		const dataByMonth = {
+			// https://web.archive.org/web/20220101061946/https://wordpress.org/about/stats/
+			'2022-01': {
+				'8.2': 0,
+				'8.1': 0.16,
+				'8.0': 2.68,
+				'7.4': 48.13,
+				'7.3': 20.57,
+				'7.2': 11.56,
+				'7.1': 2.86,
+				'7.0': 3.97,
+				'5.6': 7.08,
+			},
+			// https://web.archive.org/web/20220201003215/https://wordpress.org/about/stats/
+			'2022-02': {
+				'8.2': 0,
+				'8.1': 0.16,
+				'8.0': 2.68,
+				'7.4': 48.13,
+				'7.3': 20.57,
+				'7.2': 11.56,
+				'7.1': 2.86,
+				'7.0': 3.97,
+				'5.6': 7.08,
+			},
+			// https://web.archive.org/web/20220301015533/https://wordpress.org/about/stats/
+			'2022-03': {
+				'8.2': 0,
+				'8.1': 0.16,
+				'8.0': 2.68,
+				'7.4': 48.13,
+				'7.3': 20.57,
+				'7.2': 11.56,
+				'7.1': 2.86,
+				'7.0': 3.97,
+				'5.6': 7.08,
+			},
+			// https://web.archive.org/web/20220401233709/https://wordpress.org/about/stats/
+			'2022-04': {
+				'8.2': 0,
+				'8.1': 0.16,
+				'8.0': 2.68,
+				'7.4': 48.13,
+				'7.3': 20.57,
+				'7.2': 11.56,
+				'7.1': 2.86,
+				'7.0': 3.97,
+				'5.6': 7.08,
+			},
+			// https://web.archive.org/web/20220502000526/https://wordpress.org/about/stats/
+			'2022-05': {
+				'8.2': 0,
+				'8.1': 1.10,
+				'8.0': 5.95,
+				'7.4': 54.12,
+				'7.3': 15.11,
+				'7.2': 9.65,
+				'7.1': 2.30,
+				'7.0': 3.26,
+				'5.6': 6.04,
+			},
+			// https://web.archive.org/web/20220601155625/https://wordpress.org/about/stats/
+			'2022-06': {
+				'8.2': 0,
+				'8.1': 1.10,
+				'8.0': 5.95,
+				'7.4': 54.12,
+				'7.3': 15.11,
+				'7.2': 9.65,
+				'7.1': 2.30,
+				'7.0': 3.26,
+				'5.6': 6.04,
+			},
+			// https://web.archive.org/web/20220701155638/https://wordpress.org/about/stats/
+			'2022-07': {
+				'8.2': 0,
+				'8.1': 1.10,
+				'8.0': 5.95,
+				'7.4': 54.12,
+				'7.3': 15.11,
+				'7.2': 9.65,
+				'7.1': 2.30,
+				'7.0': 3.26,
+				'5.6': 6.04,
+			},
+			// https://web.archive.org/web/20220801040254/https://wordpress.org/about/stats/
+			'2022-08': {
+				'8.2': 0,
+				'8.1': 1.10,
+				'8.0': 5.95,
+				'7.4': 54.12,
+				'7.3': 15.11,
+				'7.2': 9.65,
+				'7.1': 2.30,
+				'7.0': 3.26,
+				'5.6': 6.04,
+			},
+			// https://web.archive.org/web/20220901103822/https://wordpress.org/about/stats/
+			'2022-09': {
+				'8.2': 0,
+				'8.1': 1.10,
+				'8.0': 5.95,
+				'7.4': 54.12,
+				'7.3': 15.11,
+				'7.2': 9.65,
+				'7.1': 2.30,
+				'7.0': 3.26,
+				'5.6': 6.04,
+			},
+			// https://web.archive.org/web/20221001080534/https://wordpress.org/about/stats/
+			'2022-10': {
+				'8.2': 0.01,
+				'8.1': 3.55,
+				'8.0': 9.13,
+				'7.4': 56.70,
+				'7.3': 11.04,
+				'7.2': 7.79,
+				'7.1': 1.84,
+				'7.0': 2.72,
+				'5.6': 5.06,
+			},
+			// https://web.archive.org/web/20221101001711/https://wordpress.org/about/stats/
+			'2022-11': {
+				'8.2': 0.01,
+				'8.1': 3.55,
+				'8.0': 9.13,
+				'7.4': 56.70,
+				'7.3': 11.04,
+				'7.2': 7.79,
+				'7.1': 1.84,
+				'7.0': 2.72,
+				'5.6': 5.06,
+			},
+			// https://web.archive.org/web/20221231210615/https://wordpress.org/about/stats/
+			'2022-12': {
+				'8.2': 0.01,
+				'8.1': 3.55,
+				'8.0': 9.13,
+				'7.4': 56.70,
+				'7.3': 11.04,
+				'7.2': 7.79,
+				'7.1': 1.84,
+				'7.0': 2.72,
+				'5.6': 5.06,
+			},
+			// https://web.archive.org/web/20230104000949/https://wordpress.org/about/stats/
+			'2023-01': {
+				'8.2': 0.01,
+				'8.1': 3.55,
+				'8.0': 9.13,
+				'7.4': 56.70,
+				'7.3': 11.04,
+				'7.2': 7.79,
+				'7.1': 1.84,
+				'7.0': 2.72,
+				'5.6': 5.06,
+			},
+			// https://web.archive.org/web/20230201080706/https://wordpress.org/about/stats/
+			'2023-02': {
+				'8.2': 0.33,
+				'8.1': 5.49,
+				'8.0': 11.14,
+				'7.4': 55.04,
+				'7.3': 9.91,
+				'7.2': 7.19,
+				'7.1': 1.70,
+				'7.0': 2.51,
+				'5.6': 4.63,
+			},
+			// https://web.archive.org/web/20230301100004/https://wordpress.org/about/stats/
+			'2023-03': {
+				'8.2': 0.33,
+				'8.1': 5.49,
+				'8.0': 11.14,
+				'7.4': 55.04,
+				'7.3': 9.91,
+				'7.2': 7.19,
+				'7.1': 1.70,
+				'7.0': 2.51,
+				'5.6': 4.63,
+			},
+			// https://web.archive.org/web/20230501214403/https://wordpress.org/about/stats/
+			'2023-05': {
+				'8.2': 0.95,
+				'8.1': 7.78,
+				'8.0': 12.87,
+				'7.4': 53.22,
+				'7.3': 8.82,
+				'7.2': 6.39,
+				'7.1': 1.54,
+				'7.0': 2.26,
+				'5.6': 4.26,
+			},
+			// https://web.archive.org/web/20230601044301/https://wordpress.org/about/stats
+			'2023-06': {
+				'8.2': 1.68, // + 0.73
+				'8.1': 9.10, // + 1.32
+				'8.0': 13.59, // + 0.72
+				'7.4': 51.64, // - 1.58
+				'7.3': 8.16, // - 0.66
+				'7.2': 6.48, // + 0.09
+				'7.1': 1.42, // - 0.12
+				'7.0': 2.10, // - 0.16
+				'5.6': 4.02, // - 0.24
+			},
+			// https://wordpress.org/about/stats
+			'2023-07': {
+				'8.2': 2.13, // + 0.45
+				'8.1': 9.38, // + 0.28
+				'8.0': 14.07, // + 0.48
+				'7.4': 51.11, // - 0.53
+				'7.3': 7.91, // - 0.25
+				'7.2': 6.28, // - 0.20
+				'7.1': 1.38, // - 0.04
+				'7.0': 2.05, // - 0.05
+				'5.6': 3.93, // - 0.09
+			},
+			// *Very* rough projection based on previous two months
+			'2023-08': {
+				'8.2': 2.43,
+				'8.1': 9.50,
+				'8.0': 14.30,
+				'7.4': 50.80,
+				'7.3': 7.80,
+				'7.2': 6.20,
+				'7.1': 1.35,
+				'7.0': 2.00,
+				'5.6': 3.85,
+			},
+		};
+		const phpVersions = {
+			'8.2': {
+				color: 'red',
+			},
+			'8.1': {
+				color: 'green',
+			},
+			'8.0': {
+				color: 'blue',
+			},
+			'7.4': {
+				color: 'orange',
+			},
+			'7.3': {
+				color: 'black',
+			},
+			'7.2': {
+				color: 'deeppink',
+			},
+			'7.1': {
+				color: 'purple',
+			},
+			'7.0': {
+				color: 'brown',
+			},
+			'5.6': {
+				color: 'gray',
+			},
+		}
+		const ctx = document.getElementById('canvas');
+		const latestMonth = Object.keys(dataByMonth).pop();
+		const phpLabel = {
+			type: 'label',
+			xValue: latestMonth,
+			xAdjust: 50,
+			color: '#fff',
+			font: {
+				size: 11,
+			},
+			padding: 1,
+			callout: {
+				display: true,
+				side: 0
+			},
+		};
+
+		new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: [
+					...Object.keys(dataByMonth),
+					'',
+				],
+				datasets: Object.keys(phpVersions).map((version) => ({
+					label: version,
+					data: [
+						...Object.values(dataByMonth).map((data) => data[version]),
+					],
+					borderColor: phpVersions[version].color,
+				})),
+			},
+			options: {
+				plugins: {
+					annotation: {
+						annotations: {
+							legend82: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['8.2'],
+								backgroundColor: phpVersions['8.2'].color,
+								content: [`8.2: ${dataByMonth[latestMonth]['8.2']}%`],
+								yAdjust: -10,
+							},
+							legend81: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['8.1'],
+								backgroundColor: phpVersions['8.1'].color,
+								content: [`8.1: ${dataByMonth[latestMonth]['8.1']}%`],
+							},
+							legend80: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['8.0'],
+								backgroundColor: phpVersions['8.0'].color,
+								content: [`8.0: ${dataByMonth[latestMonth]['8.0']}%`],
+							},
+							legend74: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['7.4'],
+								backgroundColor: phpVersions['7.4'].color,
+								content: [`7.4: ${dataByMonth[latestMonth]['7.4']}%`],
+							},
+							legend73: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['7.3'],
+								backgroundColor: phpVersions['7.3'].color,
+								content: [`7.3: ${dataByMonth[latestMonth]['7.3']}%`],
+							},
+							legend72: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['7.2'],
+								backgroundColor: phpVersions['7.2'].color,
+								content: [`7.2: ${dataByMonth[latestMonth]['7.2']}%`],
+							},
+							legend71: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['7.1'],
+								backgroundColor: phpVersions['7.1'].color,
+								content: [`7.1: ${dataByMonth[latestMonth]['7.1']}%`],
+								yAdjust: 10,
+							},
+							legend70: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['7.0'],
+								backgroundColor: phpVersions['7.0'].color,
+								content: [`7.0: ${dataByMonth[latestMonth]['7.0']}%`],
+							},
+							legend56: {
+								...phpLabel,
+								yValue: dataByMonth[latestMonth]['5.6'],
+								backgroundColor: phpVersions['5.6'].color,
+								content: [`5.6: ${dataByMonth[latestMonth]['5.6']}%`],
+								yAdjust: -10,
+							},
+							wp59: {
+								xMin: '2022-01',
+								xMax: '2022-01',
+								borderWidth: 1,
+								label: {
+									enabled: true,
+									content: 'WordPress 5.9',
+								},
+							},
+							wp60: {
+								xMin: '2022-05',
+								xMax: '2022-05',
+								borderWidth: 1,
+								label: {
+									enabled: true,
+									content: 'WordPress 6.0',
+								},
+							},
+							wp61: {
+								xMin: '2022-11',
+								xMax: '2022-11',
+								borderWidth: 1,
+								label: {
+									enabled: true,
+									content: 'WordPress 6.1',
+								},
+							},
+							wp62: {
+								xMin: '2023-03',
+								xMax: '2023-03',
+								borderWidth: 1,
+								label: {
+									enabled: true,
+									content: 'WordPress 6.2',
+								},
+							},
+						}
+					}
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>
