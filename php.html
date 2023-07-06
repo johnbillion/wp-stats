@@ -335,57 +335,57 @@
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['8.2'],
 								backgroundColor: phpVersions['8.2'].color,
-								content: [`8.2: ${dataByMonth[latestMonth]['8.2']}%`],
+								content: [`8.2: ${dataByMonth[latestMonth]['8.2'].toFixed(2)}%`],
 								yAdjust: -10,
 							},
 							legend81: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['8.1'],
 								backgroundColor: phpVersions['8.1'].color,
-								content: [`8.1: ${dataByMonth[latestMonth]['8.1']}%`],
+								content: [`8.1: ${dataByMonth[latestMonth]['8.1'].toFixed(2)}%`],
 							},
 							legend80: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['8.0'],
 								backgroundColor: phpVersions['8.0'].color,
-								content: [`8.0: ${dataByMonth[latestMonth]['8.0']}%`],
+								content: [`8.0: ${dataByMonth[latestMonth]['8.0'].toFixed(2)}%`],
 							},
 							legend74: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['7.4'],
 								backgroundColor: phpVersions['7.4'].color,
-								content: [`7.4: ${dataByMonth[latestMonth]['7.4']}%`],
+								content: [`7.4: ${dataByMonth[latestMonth]['7.4'].toFixed(2)}%`],
 							},
 							legend73: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['7.3'],
 								backgroundColor: phpVersions['7.3'].color,
-								content: [`7.3: ${dataByMonth[latestMonth]['7.3']}%`],
+								content: [`7.3: ${dataByMonth[latestMonth]['7.3'].toFixed(2)}%`],
 							},
 							legend72: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['7.2'],
 								backgroundColor: phpVersions['7.2'].color,
-								content: [`7.2: ${dataByMonth[latestMonth]['7.2']}%`],
+								content: [`7.2: ${dataByMonth[latestMonth]['7.2'].toFixed(2)}%`],
 							},
 							legend71: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['7.1'],
 								backgroundColor: phpVersions['7.1'].color,
-								content: [`7.1: ${dataByMonth[latestMonth]['7.1']}%`],
+								content: [`7.1: ${dataByMonth[latestMonth]['7.1'].toFixed(2)}%`],
 								yAdjust: 10,
 							},
 							legend70: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['7.0'],
 								backgroundColor: phpVersions['7.0'].color,
-								content: [`7.0: ${dataByMonth[latestMonth]['7.0']}%`],
+								content: [`7.0: ${dataByMonth[latestMonth]['7.0'].toFixed(2)}%`],
 							},
 							legend56: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['5.6'],
 								backgroundColor: phpVersions['5.6'].color,
-								content: [`5.6: ${dataByMonth[latestMonth]['5.6']}%`],
+								content: [`5.6: ${dataByMonth[latestMonth]['5.6'].toFixed(2)}%`],
 								yAdjust: -10,
 							},
 							wp59: {
@@ -455,7 +455,7 @@
 			tableBodyRow.appendChild(tableBodyHead);
 			Object.keys(phpVersions).forEach((version) => {
 				const tableBodyCell = document.createElement('td');
-				tableBodyCell.innerText = dataByMonth[month][version]+'%';
+				tableBodyCell.innerText = dataByMonth[month][version].toFixed(2) + '%';
 				tableBodyRow.appendChild(tableBodyCell);
 			});
 			tableBody.appendChild(tableBodyRow);
