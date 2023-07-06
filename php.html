@@ -22,6 +22,10 @@
 			padding: 10px;
 		}
 
+		th {
+			text-align: left;
+		}
+
 		td {
 			text-align: right;
 		}
@@ -38,7 +42,7 @@
 	<script>
 		const dataByMonth = {
 			// https://web.archive.org/web/20220101061946/https://wordpress.org/about/stats/
-			'2022-01': {
+			'January 2022': {
 				'8.2': 0,
 				'8.1': 0.16,
 				'8.0': 2.68,
@@ -50,7 +54,7 @@
 				'5.6': 7.08,
 			},
 			// https://web.archive.org/web/20220201003215/https://wordpress.org/about/stats/
-			'2022-02': {
+			'February 2022': {
 				'8.2': 0,
 				'8.1': 0.16,
 				'8.0': 2.68,
@@ -62,7 +66,7 @@
 				'5.6': 7.08,
 			},
 			// https://web.archive.org/web/20220301015533/https://wordpress.org/about/stats/
-			'2022-03': {
+			'March 2022': {
 				'8.2': 0,
 				'8.1': 0.16,
 				'8.0': 2.68,
@@ -74,7 +78,7 @@
 				'5.6': 7.08,
 			},
 			// https://web.archive.org/web/20220401233709/https://wordpress.org/about/stats/
-			'2022-04': {
+			'April 2022': {
 				'8.2': 0,
 				'8.1': 0.16,
 				'8.0': 2.68,
@@ -86,7 +90,7 @@
 				'5.6': 7.08,
 			},
 			// https://web.archive.org/web/20220502000526/https://wordpress.org/about/stats/
-			'2022-05': {
+			'May 2022': {
 				'8.2': 0,
 				'8.1': 1.10,
 				'8.0': 5.95,
@@ -98,7 +102,7 @@
 				'5.6': 6.04,
 			},
 			// https://web.archive.org/web/20220601155625/https://wordpress.org/about/stats/
-			'2022-06': {
+			'June 2022': {
 				'8.2': 0,
 				'8.1': 1.10,
 				'8.0': 5.95,
@@ -110,7 +114,7 @@
 				'5.6': 6.04,
 			},
 			// https://web.archive.org/web/20220701155638/https://wordpress.org/about/stats/
-			'2022-07': {
+			'July 2022': {
 				'8.2': 0,
 				'8.1': 1.10,
 				'8.0': 5.95,
@@ -122,7 +126,7 @@
 				'5.6': 6.04,
 			},
 			// https://web.archive.org/web/20220801040254/https://wordpress.org/about/stats/
-			'2022-08': {
+			'August 2022': {
 				'8.2': 0,
 				'8.1': 1.10,
 				'8.0': 5.95,
@@ -134,7 +138,7 @@
 				'5.6': 6.04,
 			},
 			// https://web.archive.org/web/20220901103822/https://wordpress.org/about/stats/
-			'2022-09': {
+			'September 2022': {
 				'8.2': 0,
 				'8.1': 1.10,
 				'8.0': 5.95,
@@ -146,7 +150,7 @@
 				'5.6': 6.04,
 			},
 			// https://web.archive.org/web/20221001080534/https://wordpress.org/about/stats/
-			'2022-10': {
+			'October 2022': {
 				'8.2': 0.01,
 				'8.1': 3.55,
 				'8.0': 9.13,
@@ -158,7 +162,7 @@
 				'5.6': 5.06,
 			},
 			// https://web.archive.org/web/20221101001711/https://wordpress.org/about/stats/
-			'2022-11': {
+			'November 2022': {
 				'8.2': 0.01,
 				'8.1': 3.55,
 				'8.0': 9.13,
@@ -170,7 +174,7 @@
 				'5.6': 5.06,
 			},
 			// https://web.archive.org/web/20221231210615/https://wordpress.org/about/stats/
-			'2022-12': {
+			'December 2022': {
 				'8.2': 0.01,
 				'8.1': 3.55,
 				'8.0': 9.13,
@@ -182,7 +186,7 @@
 				'5.6': 5.06,
 			},
 			// https://web.archive.org/web/20230104000949/https://wordpress.org/about/stats/
-			'2023-01': {
+			'January 2023': {
 				'8.2': 0.01,
 				'8.1': 3.55,
 				'8.0': 9.13,
@@ -194,7 +198,7 @@
 				'5.6': 5.06,
 			},
 			// https://web.archive.org/web/20230201080706/https://wordpress.org/about/stats/
-			'2023-02': {
+			'February 2023': {
 				'8.2': 0.33,
 				'8.1': 5.49,
 				'8.0': 11.14,
@@ -206,7 +210,7 @@
 				'5.6': 4.63,
 			},
 			// https://web.archive.org/web/20230301100004/https://wordpress.org/about/stats/
-			'2023-03': {
+			'March 2023': {
 				'8.2': 0.33,
 				'8.1': 5.49,
 				'8.0': 11.14,
@@ -218,7 +222,7 @@
 				'5.6': 4.63,
 			},
 			// https://web.archive.org/web/20230501214403/https://wordpress.org/about/stats/
-			'2023-05': {
+			'April 2023': {
 				'8.2': 0.95,
 				'8.1': 7.78,
 				'8.0': 12.87,
@@ -230,7 +234,7 @@
 				'5.6': 4.26,
 			},
 			// https://web.archive.org/web/20230601044301/https://wordpress.org/about/stats
-			'2023-06': {
+			'June 2023': {
 				'8.2': 1.68, // + 0.73
 				'8.1': 9.10, // + 1.32
 				'8.0': 13.59, // + 0.72
@@ -242,7 +246,7 @@
 				'5.6': 4.02, // - 0.24
 			},
 			// https://wordpress.org/about/stats
-			'2023-07': {
+			'July 2023': {
 				'8.2': 2.13, // + 0.45
 				'8.1': 9.38, // + 0.28
 				'8.0': 14.07, // + 0.48
@@ -254,7 +258,7 @@
 				'5.6': 3.93, // - 0.09
 			},
 			// *Very* rough projection based on previous two months
-			'2023-08': {
+			'August 2023': {
 				'8.2': 2.43,
 				'8.1': 9.50,
 				'8.0': 14.30,
@@ -389,8 +393,8 @@
 								yAdjust: -10,
 							},
 							wp59: {
-								xMin: '2022-01',
-								xMax: '2022-01',
+								xMin: 'January 2022',
+								xMax: 'January 2022',
 								borderWidth: 1,
 								label: {
 									enabled: true,
@@ -398,8 +402,8 @@
 								},
 							},
 							wp60: {
-								xMin: '2022-05',
-								xMax: '2022-05',
+								xMin: 'May 2022',
+								xMax: 'May 2022',
 								borderWidth: 1,
 								label: {
 									enabled: true,
@@ -407,8 +411,8 @@
 								},
 							},
 							wp61: {
-								xMin: '2022-11',
-								xMax: '2022-11',
+								xMin: 'November 2022',
+								xMax: 'November 2022',
 								borderWidth: 1,
 								label: {
 									enabled: true,
@@ -416,8 +420,8 @@
 								},
 							},
 							wp62: {
-								xMin: '2023-03',
-								xMax: '2023-03',
+								xMin: 'March 2023',
+								xMax: 'March 2023',
 								borderWidth: 1,
 								label: {
 									enabled: true,
