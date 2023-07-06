@@ -8,6 +8,7 @@
 		* {
 			box-sizing: border-box;
 		}
+
 		canvas {
 			margin: 50px 0;
 		}
@@ -17,7 +18,9 @@
 			border-spacing: 0;
 		}
 
-		tr, td, th {
+		tr,
+		td,
+		th {
 			border: 1px solid #ccc;
 			padding: 10px;
 		}
@@ -34,9 +37,13 @@
 
 <body>
 	<h1>WordPress PHP version usage over time</h1>
-	<p>Stats collected from Wayback Machine snapshots of the PHP Version table on <a href="https://wordpress.org/about/stats/">wordpress.org/stats</a>. The numbers don't seem very reliable. I'm looking into it. The numbers for August 2023 are very roughly projected based on the two prior months.</p>
+	<p>Stats collected from Wayback Machine snapshots of the PHP Version table on <a
+			href="https://wordpress.org/about/stats/">wordpress.org/stats</a>. The numbers don't seem very reliable. I'm
+		looking into it. The numbers for August 2023 are very roughly projected based on the two prior months.</p>
 	<div>
-		<canvas id="canvas" aria-label="WordPress PHP version usage graph. A tabular representation of this data is available below." role="img"></canvas>
+		<canvas id="canvas"
+			aria-label="WordPress PHP version usage graph. A tabular representation of this data is available below."
+			role="img"></canvas>
 		<div id="table"></div>
 	</div>
 	<script>
@@ -344,7 +351,19 @@
 				})),
 			},
 			options: {
+				scales: {
+					y: {
+						ticks: {
+							callback: (value, index, ticks) => (value ? `${value}%` : ''),
+						}
+					}
+				},
 				plugins: {
+					tooltip: {
+						callbacks: {
+							label: (context) => ( `PHP ${context.dataset.label}: ${context.parsed.y}%` ),
+						}
+					},
 					annotation: {
 						annotations: {
 							legend82: {
