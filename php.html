@@ -443,7 +443,7 @@
 			tableBodyRow.appendChild(tableBodyHead);
 			Object.keys(phpVersions).forEach((version) => {
 				const tableBodyCell = document.createElement('td');
-				tableBodyCell.innerText = dataByMonth[month][version].toFixed(2) + '%';
+				tableBodyCell.innerText = dataByMonth[month][version] ? dataByMonth[month][version].toFixed(2) + '%' : '';
 				tableBodyRow.appendChild(tableBodyCell);
 			});
 			tableBody.appendChild(tableBodyRow);
