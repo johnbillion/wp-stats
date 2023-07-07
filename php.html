@@ -37,7 +37,8 @@
 
 <body>
 	<h1>WordPress PHP version usage over time</h1>
-	<p>Stats extracted from recent months of <a href="https://docs.google.com/spreadsheets/d/1avaM9ta3SEUhyeEk2eTUHNx0BZKGAFXMJb8Zo3CyyGQ/edit#gid=904528857">the WP PHP usage over time chart</a>. The numbers for August 2023 are very roughly projected based on the two prior months.</p>
+	<p>Stats extracted from recent months of <a href="https://docs.google.com/spreadsheets/d/1avaM9ta3SEUhyeEk2eTUHNx0BZKGAFXMJb8Zo3CyyGQ/edit#gid=904528857">the WP PHP usage over time chart</a>.</p>
+	<p>* The numbers for August 2023 are roughly projected based on the change in the prior month.</p>
 	<div>
 		<canvas id="canvas"
 			aria-label="WordPress PHP version usage graph. A tabular representation of this data is available below."
@@ -168,38 +169,38 @@
 				'5.6': 4.235,
 			},
 			'June 2023': {
-				'8.2': 1.357, // + 0.73
-				'8.1': 8.835, // + 1.32
-				'8.0': 13.394, // + 0.72
-				'7.4': 51.899, // - 1.58
-				'7.3': 8.321, // - 0.66
-				'7.2': 6.699, // + 0.09
-				'7.1': 1.451, // - 0.12
-				'7.0': 2.141, // - 0.16
-				'5.6': 4.074, // - 0.24
+				'8.2': 1.357, // + 0.347
+				'8.1': 8.835, // + 0.881
+				'8.0': 13.394, // + 0.417
+				'7.4': 51.899, // - 1.171
+				'7.3': 8.321, // - 0.431
+				'7.2': 6.699, // + 0.367
+				'7.1': 1.451, // - 0.079
+				'7.0': 2.141, // - 0.105
+				'5.6': 4.074, // - 0.161
 			},
 			'July 2023': {
-				'8.2': 2.052, // + 0.45
-				'8.1': 9.332, // + 0.28
-				'8.0': 14.015, // + 0.48
-				'7.4': 51.176, // - 0.53
-				'7.3': 7.958, // - 0.25
-				'7.2': 6.298, // - 0.20
-				'7.1': 1.388, // - 0.04
-				'7.0': 2.06, // - 0.05
-				'5.6': 3.95, // - 0.09
+				'8.2': 2.052, // + 0.695
+				'8.1': 9.332, // + 0.497
+				'8.0': 14.015, // + 0.621
+				'7.4': 51.176, // - 0.723
+				'7.3': 7.958, // - 0.363
+				'7.2': 6.298, // - 0.401
+				'7.1': 1.388, // - 0.063
+				'7.0': 2.06, // - 0.081
+				'5.6': 3.95, // - 0.124
 			},
-			// *Very* rough projection based on previous two months
-			'August 2023': {
-				'8.2': 2.43,
-				'8.1': 9.50,
-				'8.0': 14.30,
-				'7.4': 50.80,
-				'7.3': 7.80,
-				'7.2': 6.20,
-				'7.1': 1.35,
-				'7.0': 2.00,
-				'5.6': 3.85,
+			// Rough projection based on change in prior month
+			'August 2023*': {
+				'8.2': 2.747, // + 0.695
+				'8.1': 9.829, // + 0.497
+				'8.0': 14.636, // + 0.621
+				'7.4': 50.453, // - 0.723
+				'7.3': 7.595, // - 0.363
+				'7.2': 5.897, // - 0.401
+				'7.1': 1.325, // - 0.063
+				'7.0': 1.979, // - 0.081
+				'5.6': 3.826, // - 0.124
 			},
 		};
 		const phpVersions = {
