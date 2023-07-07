@@ -190,53 +190,83 @@
 				'7.0': 2.06, // - 0.081
 				'5.6': 3.95, // - 0.124
 			},
-			// Rough projection based on change in prior month
 			'August 2023*': {
-				'8.2': 2.747, // + 0.695
-				'8.1': 9.829, // + 0.497
-				'8.0': 14.636, // + 0.621
-				'7.4': 50.453, // - 0.723
 				'7.3': 7.595, // - 0.363
 				'7.2': 5.897, // - 0.401
 				'7.1': 1.325, // - 0.063
 				'7.0': 1.979, // - 0.081
-				'5.6': 3.826, // - 0.124
 			},
-			// Rough projection based on change in prior month
 			'September 2023*': {
-				'8.2': 3.442, // + 0.695
-				'8.1': 10.326, // + 0.497
-				'8.0': 15.257, // + 0.621
-				'7.4': 49.73, // - 0.723
 				'7.3': 7.232, // - 0.363
 				'7.2': 5.496, // - 0.401
 				'7.1': 1.262, // - 0.063
 				'7.0': 1.898, // - 0.081
-				'5.6': 3.702, // - 0.124
 			},
-			// Rough projection based on change in prior month
 			'October 2023*': {
-				'8.2': 4.137, // + 0.695
-				'8.1': 10.823, // + 0.497
-				'8.0': 15.878, // + 0.621
-				'7.4': 49.007, // - 0.723
 				'7.3': 6.869, // - 0.363
 				'7.2': 5.095, // - 0.401
 				'7.1': 1.199, // - 0.063
 				'7.0': 1.817, // - 0.081
-				'5.6': 3.578, // - 0.124
 			},
-			// Rough projection based on change in prior month
 			'November 2023*': {
-				'8.2': 4.832, // + 0.695
-				'8.1': 11.32, // + 0.497
-				'8.0': 16.499, // + 0.621
-				'7.4': 48.284, // - 0.723
 				'7.3': 6.506, // - 0.363
 				'7.2': 4.694, // - 0.401
 				'7.1': 1.136, // - 0.063
 				'7.0': 1.736, // - 0.081
-				'5.6': 3.454, // - 0.124
+			},
+			'December 2023*': {
+				'7.3': 6.143, // - 0.363
+				'7.2': 4.293, // - 0.401
+				'7.1': 1.073, // - 0.063
+				'7.0': 1.655, // - 0.081
+			},
+			'January 2024*': {
+				'7.3': 5.78, // - 0.363
+				'7.2': 3.892, // - 0.401
+				'7.1': 1.01, // - 0.063
+				'7.0': 1.574, // - 0.081
+			},
+			'February 2024*': {
+				'7.3': 5.417, // - 0.363
+				'7.2': 3.491, // - 0.401
+				'7.1': 0.947, // - 0.063
+				'7.0': 1.493, // - 0.081
+			},
+			'March 2024*': {
+				'7.3': 5.054, // - 0.363
+				'7.2': 3.09, // - 0.401
+				'7.1': 0.884, // - 0.063
+				'7.0': 1.412, // - 0.081
+			},
+			'April 2024*': {
+				'7.3': 4.691, // - 0.363
+				'7.2': 2.689, // - 0.401
+				'7.1': 0.821, // - 0.063
+				'7.0': 1.331, // - 0.081
+			},
+			'May 2024*': {
+				'7.3': 4.328, // - 0.363
+				'7.2': 2.288, // - 0.401
+				'7.1': 0.758, // - 0.063
+				'7.0': 1.25, // - 0.081
+			},
+			'June 2024*': {
+				'7.3': 3.965, // - 0.363
+				'7.2': 1.887, // - 0.401
+				'7.1': 0.695, // - 0.063
+				'7.0': 1.169, // - 0.081
+			},
+			'July 2024*': {
+				'7.3': 3.602, // - 0.363
+				'7.2': 1.486, // - 0.401
+				'7.1': 0.632, // - 0.063
+				'7.0': 1.088, // - 0.081
+			},
+			'August 2024*': {
+				'7.3': 3.239, // - 0.363
+				'7.2': 1.085, // - 0.401
+				'7.1': 0.569, // - 0.063
+				'7.0': 1.007, // - 0.081
 			},
 		};
 		const phpVersions = {
@@ -269,7 +299,7 @@
 			},
 		}
 		const ctx = document.getElementById('canvas');
-		const latestMonth = Object.keys(dataByMonth).pop();
+		const latestMonth = 'July 2023';
 		const phpLabel = {
 			type: 'label',
 			xValue: latestMonth,
@@ -288,10 +318,7 @@
 		new Chart(ctx, {
 			type: 'line',
 			data: {
-				labels: [
-					...Object.keys(dataByMonth),
-					'',
-				],
+				labels: Object.keys(dataByMonth),
 				datasets: Object.keys(phpVersions).map((version) => ({
 					label: version,
 					data: [
@@ -328,6 +355,7 @@
 								yValue: dataByMonth[latestMonth]['8.1'],
 								backgroundColor: phpVersions['8.1'].color,
 								content: [`8.1: ${dataByMonth[latestMonth]['8.1'].toFixed(2)}%`],
+								yAdjust: -15,
 							},
 							legend80: {
 								...phpLabel,
@@ -359,20 +387,20 @@
 								yValue: dataByMonth[latestMonth]['7.1'],
 								backgroundColor: phpVersions['7.1'].color,
 								content: [`7.1: ${dataByMonth[latestMonth]['7.1'].toFixed(2)}%`],
-								yAdjust: 5,
+								yAdjust: 10,
 							},
 							legend70: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['7.0'],
 								backgroundColor: phpVersions['7.0'].color,
 								content: [`7.0: ${dataByMonth[latestMonth]['7.0'].toFixed(2)}%`],
-								yAdjust: -5,
 							},
 							legend56: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['5.6'],
 								backgroundColor: phpVersions['5.6'].color,
 								content: [`5.6: ${dataByMonth[latestMonth]['5.6'].toFixed(2)}%`],
+								yAdjust: -5,
 							},
 							now: {
 								xMin: 'July 2023',
