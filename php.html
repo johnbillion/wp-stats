@@ -38,7 +38,7 @@
 <body>
 	<h1>WordPress PHP version usage over time</h1>
 	<p>Stats extracted from recent months of <a href="https://docs.google.com/spreadsheets/d/1avaM9ta3SEUhyeEk2eTUHNx0BZKGAFXMJb8Zo3CyyGQ/edit#gid=904528857">the WP PHP usage over time chart</a>.</p>
-	<p>* The numbers for August 2023 are roughly projected based on the change in the prior month.</p>
+	<p>* The numbers for August 2023 and beyond are roughly projected based on the change in the prior months.</p>
 	<div>
 		<canvas id="canvas"
 			aria-label="WordPress PHP version usage graph. A tabular representation of this data is available below."
@@ -202,6 +202,42 @@
 				'7.0': 1.979, // - 0.081
 				'5.6': 3.826, // - 0.124
 			},
+			// Rough projection based on change in prior month
+			'September 2023*': {
+				'8.2': 3.442, // + 0.695
+				'8.1': 10.326, // + 0.497
+				'8.0': 15.257, // + 0.621
+				'7.4': 49.73, // - 0.723
+				'7.3': 7.232, // - 0.363
+				'7.2': 5.496, // - 0.401
+				'7.1': 1.262, // - 0.063
+				'7.0': 1.898, // - 0.081
+				'5.6': 3.702, // - 0.124
+			},
+			// Rough projection based on change in prior month
+			'October 2023*': {
+				'8.2': 4.137, // + 0.695
+				'8.1': 10.823, // + 0.497
+				'8.0': 15.878, // + 0.621
+				'7.4': 49.007, // - 0.723
+				'7.3': 6.869, // - 0.363
+				'7.2': 5.095, // - 0.401
+				'7.1': 1.199, // - 0.063
+				'7.0': 1.817, // - 0.081
+				'5.6': 3.578, // - 0.124
+			},
+			// Rough projection based on change in prior month
+			'November 2023*': {
+				'8.2': 4.832, // + 0.695
+				'8.1': 11.32, // + 0.497
+				'8.0': 16.499, // + 0.621
+				'7.4': 48.284, // - 0.723
+				'7.3': 6.506, // - 0.363
+				'7.2': 4.694, // - 0.401
+				'7.1': 1.136, // - 0.063
+				'7.0': 1.736, // - 0.081
+				'5.6': 3.454, // - 0.124
+			},
 		};
 		const phpVersions = {
 			'8.2': {
@@ -285,7 +321,7 @@
 								yValue: dataByMonth[latestMonth]['8.2'],
 								backgroundColor: phpVersions['8.2'].color,
 								content: [`8.2: ${dataByMonth[latestMonth]['8.2'].toFixed(2)}%`],
-								yAdjust: -10,
+								yAdjust: -15,
 							},
 							legend81: {
 								...phpLabel,
@@ -310,6 +346,7 @@
 								yValue: dataByMonth[latestMonth]['7.3'],
 								backgroundColor: phpVersions['7.3'].color,
 								content: [`7.3: ${dataByMonth[latestMonth]['7.3'].toFixed(2)}%`],
+								yAdjust: -10,
 							},
 							legend72: {
 								...phpLabel,
@@ -322,20 +359,30 @@
 								yValue: dataByMonth[latestMonth]['7.1'],
 								backgroundColor: phpVersions['7.1'].color,
 								content: [`7.1: ${dataByMonth[latestMonth]['7.1'].toFixed(2)}%`],
-								yAdjust: 10,
+								yAdjust: 5,
 							},
 							legend70: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['7.0'],
 								backgroundColor: phpVersions['7.0'].color,
 								content: [`7.0: ${dataByMonth[latestMonth]['7.0'].toFixed(2)}%`],
+								yAdjust: -5,
 							},
 							legend56: {
 								...phpLabel,
 								yValue: dataByMonth[latestMonth]['5.6'],
 								backgroundColor: phpVersions['5.6'].color,
 								content: [`5.6: ${dataByMonth[latestMonth]['5.6'].toFixed(2)}%`],
-								yAdjust: -10,
+							},
+							now: {
+								xMin: 'July 2023',
+								xMax: 'July 2023',
+								borderWidth: 1,
+							},
+							fivepercent: {
+								yMin: 5,
+								yMax: 5,
+								borderWidth: 1,
 							},
 						}
 					}
