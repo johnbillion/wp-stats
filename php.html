@@ -94,72 +94,49 @@
 		const dataCurrentMonth = dataByMonth['2024/10'];
 
 		const changeFromLastMonth = {
-			'7.4': 1 / dataPreviousMonth['7.4'] * dataCurrentMonth['7.4'],
 			'7.3': 1 / dataPreviousMonth['7.3'] * dataCurrentMonth['7.3'],
 			'7.2': 1 / dataPreviousMonth['7.2'] * dataCurrentMonth['7.2'],
-			'7.1': 1 / dataPreviousMonth['7.1'] * dataCurrentMonth['7.1'],
-			'7.0': 1 / dataPreviousMonth['7.0'] * dataCurrentMonth['7.0'],
 		};
 
 		dataByMonth['2024/11*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 2 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 2 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 2 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 2 ) ).toFixed(2),
 		};
 		dataByMonth['2024/12*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 3 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 3 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 3 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 3 ) ).toFixed(2),
 		};
 		dataByMonth['2025/01*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 4 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 4 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 4 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 4 ) ).toFixed(2),
 		};
 		dataByMonth['2025/02*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 5 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 5 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 5 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 5 ) ).toFixed(2),
 		};
 		dataByMonth['2025/03*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 6 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 6 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 6 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 6 ) ).toFixed(2),
 		};
 		dataByMonth['2025/04*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 7 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 7 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 7 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 7 ) ).toFixed(2),
 		};
 		dataByMonth['2025/05*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 8 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 8 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 8 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 8 ) ).toFixed(2),
 		};
 		dataByMonth['2025/06*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 9 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 9 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 9 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 9 ) ).toFixed(2),
 		};
 		dataByMonth['2025/07*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 10 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 10 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 10 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 10 ) ).toFixed(2),
 		};
 		dataByMonth['2025/08*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 11 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 11 ) ).toFixed(2),
-			'7.1': ( dataCurrentMonth['7.1'] * Math.pow( changeFromLastMonth['7.1'], 11 ) ).toFixed(2),
-			'7.0': ( dataCurrentMonth['7.0'] * Math.pow( changeFromLastMonth['7.0'], 11 ) ).toFixed(2),
 		};
 
 		const phpVersions = {
