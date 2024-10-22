@@ -65,8 +65,6 @@
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
-		console.log({data});
-
 		// map data to an object where the date is the keys:
 		const dataByMonth = data.reduce((acc, [date, ...values]) => {
 			const vals = {
@@ -90,8 +88,6 @@
 			acc[month] = vals;
 			return acc;
 		}, {});
-
-		console.log({dataByMonth});
 
 		const latestMonth = '2024/10';
 		const dataPreviousMonth = dataByMonth['2024/09'];
