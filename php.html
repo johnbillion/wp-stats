@@ -38,7 +38,7 @@
 
 <body>
 	<h1>WordPress PHP version usage over time</h1>
-	<p>Stats extracted from <a href="https://docs.google.com/spreadsheets/d/1avaM9ta3SEUhyeEk2eTUHNx0BZKGAFXMJb8Zo3CyyGQ/edit#gid=904528857">the WP PHP usage over time chart</a> and <a href="https://wordpress.org/about/stats/">the WordPress.org stats page</a>.</p>
+	<p>Stats extracted from <a href="https://docs.google.com/spreadsheets/d/1avaM9ta3SEUhyeEk2eTUHNx0BZKGAFXMJb8Zo3CyyGQ/edit#gid=904528857">the WP PHP usage over time chart</a>, <a href="https://wordpress.org/about/stats/">the WordPress.org stats page</a>, and <a href="https://core.trac.wordpress.org/ticket/62622">data being tracked in the core Trac ticket</a>.</p>
 	<p>* Numbers for future months are roughly projected based on the change in the prior months.</p>
 	<p>The intention is to help inform the decision of when to bump the minimum PHP version requirement for WordPress core.</p>
 	<div>
@@ -62,6 +62,10 @@
 			2024-08-01	3.182	3.914	39.097	10.541	19.942	14.313	3.092	0.003
 			2024-09-01	3.058	3.738	36.963	10.29	20.174	16.524	3.536	0.006
 			2024-10-01	2.931	3.563	34.971	10.097	19.93	18.955	4.023	0.009
+			2024-11-01	2.830	3.400
+			2024-12-01	2.760	3.260
+			2025-01-01	2.680	3.140
+			2025-02-01	2.630	3.040
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
@@ -82,54 +86,40 @@
 			return acc;
 		}, {});
 
+		const currentMonth = '2025/02';
 		const latestMonth = '2024/10';
-		const dataPreviousMonth = dataByMonth['2024/09'];
-		const dataCurrentMonth = dataByMonth['2024/10'];
+		const dataPreviousMonth = dataByMonth['2025/01'];
+		const dataCurrentMonth = dataByMonth['2025/02'];
+		const dataLatestMonth = dataByMonth[latestMonth];
 
 		const changeFromLastMonth = {
 			'7.3': 1 / dataPreviousMonth['7.3'] * dataCurrentMonth['7.3'],
 			'7.2': 1 / dataPreviousMonth['7.2'] * dataCurrentMonth['7.2'],
 		};
 
-		dataByMonth['2024/11*'] = {
+		dataByMonth['2025/03*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 2 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 2 ) ).toFixed(2),
 		};
-		dataByMonth['2024/12*'] = {
+		dataByMonth['2025/04*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 3 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 3 ) ).toFixed(2),
 		};
-		dataByMonth['2025/01*'] = {
+		dataByMonth['2025/05*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 4 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 4 ) ).toFixed(2),
 		};
-		dataByMonth['2025/02*'] = {
+		dataByMonth['2025/06*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 5 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 5 ) ).toFixed(2),
 		};
-		dataByMonth['2025/03*'] = {
+		dataByMonth['2025/07*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 6 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 6 ) ).toFixed(2),
 		};
-		dataByMonth['2025/04*'] = {
+		dataByMonth['2025/08*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 7 ) ).toFixed(2),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 7 ) ).toFixed(2),
-		};
-		dataByMonth['2025/05*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 8 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 8 ) ).toFixed(2),
-		};
-		dataByMonth['2025/06*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 9 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 9 ) ).toFixed(2),
-		};
-		dataByMonth['2025/07*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 10 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 10 ) ).toFixed(2),
-		};
-		dataByMonth['2025/08*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 11 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 11 ) ).toFixed(2),
 		};
 
 		const phpVersions = {
@@ -158,7 +148,6 @@
 		const ctx = document.getElementById('canvas');
 		const phpLabel = {
 			type: 'label',
-			xValue: latestMonth,
 			xAdjust: 45,
 			color: '#fff',
 			font: {
@@ -201,41 +190,44 @@
 						annotations: {
 							legend83: {
 								...phpLabel,
-								yValue: dataCurrentMonth['8.3'],
+								yValue: dataLatestMonth['8.3'],
+								xValue: latestMonth,
 								backgroundColor: phpVersions['8.3'].color,
-								content: [`8.3: ${dataCurrentMonth['8.3'].toFixed(2)}%`],
-								yAdjust: -30,
+								content: [`8.3: ${dataLatestMonth['8.3'].toFixed(2)}%`],
+
 							},
 							legend82: {
 								...phpLabel,
-								yValue: dataCurrentMonth['8.2'],
+								yValue: dataLatestMonth['8.2'],
+								xValue: latestMonth,
 								backgroundColor: phpVersions['8.2'].color,
-								content: [`8.2: ${dataCurrentMonth['8.2'].toFixed(2)}%`],
-								yAdjust: 5,
+								content: [`8.2: ${dataLatestMonth['8.2'].toFixed(2)}%`],
 							},
 							legend81: {
 								...phpLabel,
-								yValue: dataCurrentMonth['8.1'],
+								yValue: dataLatestMonth['8.1'],
+								xValue: latestMonth,
 								backgroundColor: phpVersions['8.1'].color,
-								content: [`8.1: ${dataCurrentMonth['8.1'].toFixed(2)}%`],
-								yAdjust: 0,
+								content: [`8.1: ${dataLatestMonth['8.1'].toFixed(2)}%`],
 							},
 							legend80: {
 								...phpLabel,
-								yValue: dataCurrentMonth['8.0'],
+								yValue: dataLatestMonth['8.0'],
+								xValue: latestMonth,
 								backgroundColor: phpVersions['8.0'].color,
-								content: [`8.0: ${dataCurrentMonth['8.0'].toFixed(2)}%`],
-								yAdjust: 0,
+								content: [`8.0: ${dataLatestMonth['8.0'].toFixed(2)}%`],
 							},
 							legend74: {
 								...phpLabel,
-								yValue: dataCurrentMonth['7.4'],
+								yValue: dataLatestMonth['7.4'],
+								xValue: latestMonth,
 								backgroundColor: phpVersions['7.4'].color,
-								content: [`7.4: ${dataCurrentMonth['7.4'].toFixed(2)}%`],
+								content: [`7.4: ${dataLatestMonth['7.4'].toFixed(2)}%`],
 							},
 							legend73: {
 								...phpLabel,
 								yValue: dataCurrentMonth['7.3'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['7.3'].color,
 								content: [`7.3: ${dataCurrentMonth['7.3'].toFixed(2)}%`],
 								yAdjust: -20,
@@ -243,13 +235,14 @@
 							legend72: {
 								...phpLabel,
 								yValue: dataCurrentMonth['7.2'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['7.2'].color,
 								content: [`7.2: ${dataCurrentMonth['7.2'].toFixed(2)}%`],
-								yAdjust: -10,
+								yAdjust: 15,
 							},
 							now: {
-								xMin: latestMonth,
-								xMax: latestMonth,
+								xMin: currentMonth,
+								xMax: currentMonth,
 								borderWidth: 1,
 							},
 							fivepercent: {
