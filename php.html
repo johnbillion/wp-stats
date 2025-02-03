@@ -98,28 +98,28 @@
 		};
 
 		dataByMonth['2025/03*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 2 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 2 ) ).toFixed(2),
+			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 2 ) ),
+			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 2 ) ),
 		};
 		dataByMonth['2025/04*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 3 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 3 ) ).toFixed(2),
+			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 3 ) ),
+			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 3 ) ),
 		};
 		dataByMonth['2025/05*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 4 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 4 ) ).toFixed(2),
+			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 4 ) ),
+			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 4 ) ),
 		};
 		dataByMonth['2025/06*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 5 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 5 ) ).toFixed(2),
+			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 5 ) ),
+			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 5 ) ),
 		};
 		dataByMonth['2025/07*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 6 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 6 ) ).toFixed(2),
+			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 6 ) ),
+			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 6 ) ),
 		};
 		dataByMonth['2025/08*'] = {
-			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 7 ) ).toFixed(2),
-			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 7 ) ).toFixed(2),
+			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], 7 ) ),
+			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], 7 ) ),
 		};
 
 		const phpVersions = {
@@ -271,6 +271,12 @@
 			tableHeadCell.setAttribute('scope', 'col');
 			tableHeadRow.appendChild(tableHeadCell);
 		});
+
+		const headCellSum = document.createElement('th');
+		headCellSum.innerText = 'PHP 7.2+7.3';
+		headCellSum.setAttribute('scope', 'col');
+		tableHeadRow.appendChild(headCellSum);
+
 		tableHead.appendChild(tableHeadRow);
 
 		Object.keys(dataByMonth).forEach((month) => {
@@ -281,9 +287,14 @@
 			tableBodyRow.appendChild(tableBodyHead);
 			Object.keys(phpVersions).forEach((version) => {
 				const tableBodyCell = document.createElement('td');
-				tableBodyCell.innerText = dataByMonth[month][version] ? dataByMonth[month][version] + '%' : '';
+				tableBodyCell.innerText = dataByMonth[month][version] ? dataByMonth[month][version].toFixed(2) + '%' : '';
 				tableBodyRow.appendChild(tableBodyCell);
 			});
+
+			const tableBodyCellSum = document.createElement('td');
+			tableBodyCellSum.innerText = ( dataByMonth[month]['7.2'] + dataByMonth[month]['7.3'] ).toFixed(2) + '%';
+			tableBodyRow.appendChild(tableBodyCellSum);
+
 			tableBody.appendChild(tableBodyRow);
 		});
 
