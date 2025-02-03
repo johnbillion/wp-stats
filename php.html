@@ -291,9 +291,17 @@
 				tableBodyRow.appendChild(tableBodyCell);
 			});
 
-			const tableBodyCellSum = document.createElement('td');
-			tableBodyCellSum.innerText = ( dataByMonth[month]['7.2'] + dataByMonth[month]['7.3'] ).toFixed(2) + '%';
-			tableBodyRow.appendChild(tableBodyCellSum);
+			const tableCellSum = document.createElement('td');
+			const summed = dataByMonth[month]['7.2'] + dataByMonth[month]['7.3'];
+			tableCellSum.innerText = summed.toFixed(2) + '%';
+
+			tableCellSum.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+
+			if ( summed < 5 ) {
+				tableCellSum.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
+			}
+
+			tableBodyRow.appendChild(tableCellSum);
 
 			tableBody.appendChild(tableBodyRow);
 		});
