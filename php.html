@@ -124,6 +124,9 @@
 		};
 
 		const phpVersions = {
+			'8.4': {
+				color: 'lightgreen',
+			},
 			'8.3': {
 				color: 'lightblue',
 			},
@@ -189,6 +192,14 @@
 					},
 					annotation: {
 						annotations: {
+							legend84: {
+								...phpLabel,
+								yValue: dataLatestMonth['8.4'],
+								xValue: latestMonth,
+								backgroundColor: phpVersions['8.4'].color,
+								content: [`8.4: ${dataLatestMonth['8.4'].toFixed(2)}%`],
+								yAdjust: 5,
+							},
 							legend83: {
 								...phpLabel,
 								yValue: dataLatestMonth['8.3'],
