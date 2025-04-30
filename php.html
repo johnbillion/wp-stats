@@ -50,10 +50,6 @@
 	<script>
 		//	Date      	7.2  	7.3  	7.4  	8.0  	8.1  	8.2  	8.3  	8.4
 		const rawData = `
-			2023-11-01	5.241	6.544	48.283	14.715	12.124	5.065	0.007	0.0
-			2023-12-01	5.104	6.184	47.298	14.259	13.143	6.266	0.02	0.0
-			2024-01-01	4.796	5.906	46.493	13.928	13.83	7.418	0.115	0.0
-			2024-02-01	4.528	5.589	45.629	13.434	14.722	8.449	0.368	0.0
 			2024-03-01	4.31	5.137	43.77	12.672	15.383	11.014	0.72	0.0
 			2024-04-01	3.927	4.796	42.794	12.266	16.267	12.018	1.168	0.0
 			2024-05-01	3.641	4.534	42.034	11.858	17.154	12.612	1.594	0.0
@@ -68,6 +64,7 @@
 			2025-02-01	2.630	3.040	31.800	9.400	19.000	22.100	6.400	0.400
 			2025-03-01	2.500	2.930	31.000	9.250	18.750	22.900	7.000	0.500
 			2025-04-01	2.390	2.770	30.200	9.100	18.500	23.700	7.600	0.700
+			2025-05-01	2.300	2.680	29.390	8.890	18.410	24.300	8.530	0.970
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
@@ -88,9 +85,9 @@
 			return acc;
 		}, {});
 
-		const currentMonth = '2025/04';
-		const latestMonth = '2024/10';
-		const dataPreviousMonth = dataByMonth['2025/03'];
+		const currentMonth = '2025/05';
+		const latestMonth = '2025/05';
+		const dataPreviousMonth = dataByMonth['2025/04'];
 		const dataCurrentMonth = dataByMonth[currentMonth];
 		const dataLatestMonth = dataByMonth[latestMonth];
 
@@ -102,23 +99,23 @@
 		const deceleration73 = 0.9;
 		const deceleration72 = 0.8;
 
-		dataByMonth['2025/05*'] = {
+		dataByMonth['2025/06*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], deceleration73 ) ),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], deceleration72 ) ),
 		};
-		dataByMonth['2025/06*'] = {
+		dataByMonth['2025/07*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], deceleration73 * 2 ) ),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], deceleration72 * 2 ) ),
 		};
-		dataByMonth['2025/07*'] = {
+		dataByMonth['2025/08*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], deceleration73 * 3 ) ),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], deceleration72 * 3 ) ),
 		};
-		dataByMonth['2025/08*'] = {
+		dataByMonth['2025/09*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], deceleration73 * 4 ) ),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], deceleration72 * 4 ) ),
 		};
-		dataByMonth['2025/09*'] = {
+		dataByMonth['2025/10*'] = {
 			'7.3': ( dataCurrentMonth['7.3'] * Math.pow( changeFromLastMonth['7.3'], deceleration73 * 5 ) ),
 			'7.2': ( dataCurrentMonth['7.2'] * Math.pow( changeFromLastMonth['7.2'], deceleration72 * 5 ) ),
 		};
@@ -206,7 +203,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.3'].color,
 								content: [`8.3: ${dataLatestMonth['8.3'].toFixed(2)}%`],
-
+								yAdjust: 5,
 							},
 							legend82: {
 								...phpLabel,
@@ -228,6 +225,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.0'].color,
 								content: [`8.0: ${dataLatestMonth['8.0'].toFixed(2)}%`],
+								yAdjust: -5,
 							},
 							legend74: {
 								...phpLabel,
@@ -242,7 +240,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['7.3'].color,
 								content: [`7.3: ${dataCurrentMonth['7.3'].toFixed(2)}%`],
-								yAdjust: -20,
+								yAdjust: -10,
 							},
 							legend72: {
 								...phpLabel,
@@ -250,7 +248,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['7.2'].color,
 								content: [`7.2: ${dataCurrentMonth['7.2'].toFixed(2)}%`],
-								yAdjust: 15,
+								yAdjust: 12,
 							},
 							now: {
 								xMin: currentMonth,
