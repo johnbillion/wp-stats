@@ -65,6 +65,7 @@
 			2025-04-01	2.390	2.770	30.200	9.100	18.500	23.700	7.600	0.700
 			2025-05-01	2.300	2.680	29.390	8.890	18.410	24.300	8.530	0.970
 			2025-06-01	2.220	2.560	28.860	8.660	18.080	24.930	9.080	1.230
+			2025-07-01	2.160	2.470	28.220	8.480	17.550	25.490	9.860	1.510
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
@@ -85,9 +86,9 @@
 			return acc;
 		}, {});
 
-		const currentMonth = '2025/06';
-		const latestMonth = '2025/06';
-		const dataPreviousMonth = dataByMonth['2025/05'];
+		const currentMonth = '2025/07';
+		const latestMonth = '2025/07';
+		const dataPreviousMonth = dataByMonth['2025/06'];
 		const dataCurrentMonth = dataByMonth[currentMonth];
 		const dataLatestMonth = dataByMonth[latestMonth];
 
@@ -195,7 +196,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.4'].color,
 								content: [`8.4: ${dataLatestMonth['8.4'].toFixed(2)}%`],
-								yAdjust: 10,
+								yAdjust: 15,
 							},
 							legend83: {
 								...phpLabel,
@@ -203,7 +204,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.3'].color,
 								content: [`8.3: ${dataLatestMonth['8.3'].toFixed(2)}%`],
-								yAdjust: -5,
+								yAdjust: 0,
 							},
 							legend82: {
 								...phpLabel,
@@ -225,7 +226,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.0'].color,
 								content: [`8.0: ${dataLatestMonth['8.0'].toFixed(2)}%`],
-								yAdjust: 5,
+								yAdjust: 0,
 							},
 							legend74: {
 								...phpLabel,
