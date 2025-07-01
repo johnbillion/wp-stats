@@ -100,10 +100,9 @@
 		const deceleration72 = 0.8;
 
 		// Projections for 7.3 and 7.2 for the next five months
-		const projectionBaseMonth = '2025/07';
-		const projectionCount = 5;
 		const projectionLabels = ['08', '09', '10', '11', '12'];
-		for (let i = 0; i < projectionCount; i++) {
+
+		for (let i = 0; i < projectionLabels.length; i++) {
 			const monthLabel = `2025/${projectionLabels[i]}*`;
 			dataByMonth[monthLabel] = {
 				'7.3': (dataCurrentMonth['7.3'] * Math.pow(changeFromLastMonth['7.3'], deceleration73 * (i + 1))),
