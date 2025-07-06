@@ -272,10 +272,15 @@
 			tableHeadRow.appendChild(tableHeadCell);
 		});
 
-		const headCellSum = document.createElement('th');
-		headCellSum.innerText = 'PHP 7.2+7.3';
-		headCellSum.setAttribute('scope', 'col');
-		tableHeadRow.appendChild(headCellSum);
+		const headCell7273 = document.createElement('th');
+		headCell7273.innerText = 'PHP 7.2+7.3';
+		headCell7273.setAttribute('scope', 'col');
+		tableHeadRow.appendChild(headCell7273);
+
+		const headCell83Plus = document.createElement('th');
+		headCell83Plus.innerText = 'PHP 8.3+';
+		headCell83Plus.setAttribute('scope', 'col');
+		tableHeadRow.appendChild(headCell83Plus);
 
 		tableHead.appendChild(tableHeadRow);
 
@@ -291,17 +296,32 @@
 				tableBodyRow.appendChild(tableBodyCell);
 			});
 
-			const tableCellSum = document.createElement('td');
-			const summed = dataByMonth[month]['7.2'] + dataByMonth[month]['7.3'];
-			tableCellSum.innerText = summed.toFixed(2) + '%';
+			const tableCell7273 = document.createElement('td');
+			const summed7273 = dataByMonth[month]['7.2'] + dataByMonth[month]['7.3'];
+			tableCell7273.innerText = summed7273.toFixed(2) + '%';
 
-			tableCellSum.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+			tableCell7273.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
 
-			if ( summed < 5 ) {
-				tableCellSum.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
+			if ( summed7273 < 5 ) {
+				tableCell7273.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
 			}
 
-			tableBodyRow.appendChild(tableCellSum);
+			tableBodyRow.appendChild(tableCell7273);
+
+			const tableCell83Plus = document.createElement('td');
+
+			if ( dataByMonth[month]['8.3'] ) {
+				const summed83Plus = dataByMonth[month]['8.3'] + dataByMonth[month]['8.4'];
+				tableCell83Plus.innerText = summed83Plus.toFixed(2) + '%';
+
+				tableCell83Plus.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+
+				if ( summed83Plus > 10 ) {
+					tableCell83Plus.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
+				}
+			}
+
+			tableBodyRow.appendChild(tableCell83Plus);
 
 			tableBody.appendChild(tableBodyRow);
 		});
