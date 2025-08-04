@@ -65,6 +65,7 @@
 			2025-05-01	2.300	2.680	29.390	8.890	18.410	24.300	8.530	0.970
 			2025-06-01	2.220	2.560	28.860	8.660	18.080	24.930	9.080	1.230
 			2025-07-01	2.160	2.470	28.220	8.480	17.550	25.490	9.860	1.510
+			2025-08-01	2.100	2.410	26.630	8.000	17.370	26.040	11.170	2.090
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
@@ -85,9 +86,9 @@
 			return acc;
 		}, {});
 
-		const currentMonth = '2025/07';
-		const latestMonth = '2025/07';
-		const dataPreviousMonth = dataByMonth['2025/06'];
+		const currentMonth = '2025/08';
+		const latestMonth = '2025/08';
+		const dataPreviousMonth = dataByMonth['2025/07'];
 		const dataCurrentMonth = dataByMonth[currentMonth];
 		const dataLatestMonth = dataByMonth[latestMonth];
 
@@ -99,11 +100,11 @@
 		const deceleration73 = 0.9;
 		const deceleration72 = 0.8;
 
-		// Projections for 7.3 and 7.2 for the next five months
-		const projectionLabels = ['08', '09', '10', '11', '12'];
+		// Projections for 7.3 and 7.2 for the next few months
+		const projectionLabels = ['2025/09', '2025/10', '2025/11', '2025/12', '2026/01'];
 
 		for (let i = 0; i < projectionLabels.length; i++) {
-			const monthLabel = `2025/${projectionLabels[i]}*`;
+			const monthLabel = `${projectionLabels[i]}*`;
 			dataByMonth[monthLabel] = {
 				'7.3': (dataCurrentMonth['7.3'] * Math.pow(changeFromLastMonth['7.3'], deceleration73 * (i + 1))),
 				'7.2': (dataCurrentMonth['7.2'] * Math.pow(changeFromLastMonth['7.2'], deceleration72 * (i + 1))),
@@ -185,7 +186,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.4'].color,
 								content: [`8.4: ${dataLatestMonth['8.4'].toFixed(2)}%`],
-								yAdjust: 15,
+								yAdjust: 20,
 							},
 							legend83: {
 								...phpLabel,
@@ -201,6 +202,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.2'].color,
 								content: [`8.2: ${dataLatestMonth['8.2'].toFixed(2)}%`],
+								yAdjust: 5,
 							},
 							legend81: {
 								...phpLabel,
@@ -223,6 +225,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['7.4'].color,
 								content: [`7.4: ${dataLatestMonth['7.4'].toFixed(2)}%`],
+								yAdjust: -5,
 							},
 							legend73: {
 								...phpLabel,
@@ -238,7 +241,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['7.2'].color,
 								content: [`7.2: ${dataCurrentMonth['7.2'].toFixed(2)}%`],
-								yAdjust: 12,
+								yAdjust: 5,
 							},
 							now: {
 								xMin: currentMonth,
