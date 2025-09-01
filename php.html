@@ -279,11 +279,6 @@
 		headCell7273.setAttribute('scope', 'col');
 		tableHeadRow.appendChild(headCell7273);
 
-		const headCell83Plus = document.createElement('th');
-		headCell83Plus.innerText = 'PHP 8.3+';
-		headCell83Plus.setAttribute('scope', 'col');
-		tableHeadRow.appendChild(headCell83Plus);
-
 		tableHead.appendChild(tableHeadRow);
 
 		Object.keys(dataByMonth).forEach((month) => {
@@ -309,21 +304,6 @@
 			}
 
 			tableBodyRow.appendChild(tableCell7273);
-
-			const tableCell83Plus = document.createElement('td');
-
-			if ( dataByMonth[month]['8.3'] ) {
-				const summed83Plus = dataByMonth[month]['8.3'] + dataByMonth[month]['8.4'];
-				tableCell83Plus.innerText = summed83Plus.toFixed(2) + '%';
-
-				tableCell83Plus.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
-
-				if ( summed83Plus > 10 ) {
-					tableCell83Plus.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
-				}
-			}
-
-			tableBodyRow.appendChild(tableCell83Plus);
 
 			tableBody.appendChild(tableBodyRow);
 		});
