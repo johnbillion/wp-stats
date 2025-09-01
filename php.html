@@ -113,42 +113,41 @@
 
 		const phpVersions = {
 			'8.4': {
-				color: 'lightgreen',
+				color: '#1E88E5',
 			},
 			'8.3': {
-				color: 'lightblue',
+				color: '#E53935',
 			},
 			'8.2': {
-				color: 'red',
+				color: '#FB8C00',
 			},
 			'8.1': {
-				color: 'green',
+				color: '#8E24AA',
 			},
 			'8.0': {
-				color: 'blue',
+				color: '#43A047',
 			},
 			'7.4': {
-				color: 'orange',
+				color: '#546E7A',
 			},
 			'7.3': {
-				color: 'black',
+				color: '#D81B60',
 			},
 			'7.2': {
-				color: 'deeppink',
+				color: '#00ACC1',
 			},
 		}
 		const ctx = document.getElementById('canvas');
 		const phpLabel = {
 			type: 'label',
-			xAdjust: 45,
+			xAdjust: 40,
 			color: '#fff',
 			font: {
-				size: 10,
+				size: 12,
 			},
-			padding: 1,
+			padding: 3,
 			callout: {
-				display: true,
-				side: 0
+				display: false
 			},
 		};
 
@@ -186,7 +185,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.4'].color,
 								content: [`8.4: ${dataLatestMonth['8.4'].toFixed(2)}%`],
-								yAdjust: -25,
+								yAdjust: -20,
 							},
 							legend83: {
 								...phpLabel,
@@ -202,7 +201,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.2'].color,
 								content: [`8.2: ${dataLatestMonth['8.2'].toFixed(2)}%`],
-								yAdjust: 0,
+								yAdjust: -5,
 							},
 							legend81: {
 								...phpLabel,
@@ -233,7 +232,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['7.3'].color,
 								content: [`7.3: ${dataCurrentMonth['7.3'].toFixed(2)}%`],
-								yAdjust: -10,
+								yAdjust: -5,
 							},
 							legend72: {
 								...phpLabel,
