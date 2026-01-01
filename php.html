@@ -50,8 +50,6 @@
 	<script>
 		//	Date      	7.2  	7.3  	7.4  	8.0  	8.1  	8.2  	8.3  	8.4
 		const rawData = `
-			2024-11-01	2.830	3.400	34.200	9.850	19.750	19.700	4.600	0.100
-			2024-12-01	2.760	3.260	33.400	9.700	19.500	20.500	5.200	0.200
 			2025-01-01	2.680	3.140	32.600	9.550	19.250	21.300	5.800	0.300
 			2025-02-01	2.630	3.040	31.800	9.400	19.000	22.100	6.400	0.400
 			2025-03-01	2.500	2.930	31.000	9.250	18.750	22.900	7.000	0.500
@@ -64,6 +62,7 @@
 			2025-10-01	1.990	2.260	24.800	7.260	16.590	26.710	13.220	3.190
 			2025-11-01	1.920	2.180	23.850	6.940	16.150	26.930	14.370	3.780
 			2025-12-01	1.870	2.110	22.920	6.440	15.920	27.450	15.160	4.250
+			2026-01-01	1.820	2.050	22.330	5.820	15.500	27.320	16.470	4.790
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
@@ -84,9 +83,9 @@
 			return acc;
 		}, {});
 
-		const currentMonth = '2025/12';
-		const latestMonth = '2025/12';
-		const dataPreviousMonth = dataByMonth['2025/11'];
+		const currentMonth = '2026/01';
+		const latestMonth = '2026/01';
+		const dataPreviousMonth = dataByMonth['2025/12'];
 		const dataCurrentMonth = dataByMonth[currentMonth];
 		const dataLatestMonth = dataByMonth[latestMonth];
 
@@ -100,10 +99,10 @@
 
 		// Projections for 7.3 and 7.2 for the next few months
 		const projectionLabels = [
-			'2026/01',
 			'2026/02',
 			'2026/03',
 			'2026/04',
+			'2026/05',
 		];
 
 		for (let i = 0; i < projectionLabels.length; i++) {
@@ -196,7 +195,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.3'].color,
 								content: [`8.3: ${dataLatestMonth['8.3'].toFixed(2)}%`],
-								yAdjust: 3,
+								yAdjust: 0,
 							},
 							legend82: {
 								...phpLabel,
@@ -212,7 +211,7 @@
 								xValue: latestMonth,
 								backgroundColor: phpVersions['8.1'].color,
 								content: [`8.1: ${dataLatestMonth['8.1'].toFixed(2)}%`],
-								yAdjust: -3,
+								yAdjust: 0,
 							},
 							legend80: {
 								...phpLabel,
