@@ -84,11 +84,18 @@
 			return acc;
 		}, {});
 
-		const currentMonth = '2026/01';
-		const latestMonth = '2026/01';
-		const dataPreviousMonth = dataByMonth['2025/12'];
+		const currentMonth = Object.keys(dataByMonth).pop();
+
+		function offsetMonth(monthStr, offset) {
+			const [year, month] = monthStr.split('/').map(Number);
+			const totalMonths = year * 12 + month - 1 + offset;
+			const newYear = Math.floor(totalMonths / 12);
+			const newMonth = (totalMonths % 12) + 1;
+			return `${newYear}/${String(newMonth).padStart(2, '0')}`;
+		}
+
+		const dataPreviousMonth = dataByMonth[offsetMonth(currentMonth, -1)];
 		const dataCurrentMonth = dataByMonth[currentMonth];
-		const dataLatestMonth = dataByMonth[latestMonth];
 
 		const changeFromLastMonth = {
 			'7.3': 1 / dataPreviousMonth['7.3'] * dataCurrentMonth['7.3'],
@@ -101,12 +108,7 @@
 		const deceleration72 = 0.8;
 
 		// Projections for the next few months
-		const projectionLabels = [
-			'2026/02',
-			'2026/03',
-			'2026/04',
-			'2026/05',
-		];
+		const projectionLabels = [1, 2, 3, 4].map(i => offsetMonth(currentMonth, i));
 
 		for (let i = 0; i < projectionLabels.length; i++) {
 			const monthLabel = `${projectionLabels[i]}*`;
@@ -190,58 +192,58 @@
 						annotations: {
 							legend85: {
 								...phpLabel,
-								yValue: dataLatestMonth['8.5'],
-								xValue: latestMonth,
+								yValue: dataCurrentMonth['8.5'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['8.5'].color,
-								content: [`8.5: ${dataLatestMonth['8.5'].toFixed(2)}%`],
+								content: [`8.5: ${dataCurrentMonth['8.5'].toFixed(2)}%`],
 								yAdjust: -5,
 							},
 							legend84: {
 								...phpLabel,
-								yValue: dataLatestMonth['8.4'],
-								xValue: latestMonth,
+								yValue: dataCurrentMonth['8.4'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['8.4'].color,
-								content: [`8.4: ${dataLatestMonth['8.4'].toFixed(2)}%`],
+								content: [`8.4: ${dataCurrentMonth['8.4'].toFixed(2)}%`],
 								yAdjust: 0,
 							},
 							legend83: {
 								...phpLabel,
-								yValue: dataLatestMonth['8.3'],
-								xValue: latestMonth,
+								yValue: dataCurrentMonth['8.3'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['8.3'].color,
-								content: [`8.3: ${dataLatestMonth['8.3'].toFixed(2)}%`],
+								content: [`8.3: ${dataCurrentMonth['8.3'].toFixed(2)}%`],
 								yAdjust: 0,
 							},
 							legend82: {
 								...phpLabel,
-								yValue: dataLatestMonth['8.2'],
-								xValue: latestMonth,
+								yValue: dataCurrentMonth['8.2'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['8.2'].color,
-								content: [`8.2: ${dataLatestMonth['8.2'].toFixed(2)}%`],
+								content: [`8.2: ${dataCurrentMonth['8.2'].toFixed(2)}%`],
 								yAdjust: 0,
 							},
 							legend81: {
 								...phpLabel,
-								yValue: dataLatestMonth['8.1'],
-								xValue: latestMonth,
+								yValue: dataCurrentMonth['8.1'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['8.1'].color,
-								content: [`8.1: ${dataLatestMonth['8.1'].toFixed(2)}%`],
+								content: [`8.1: ${dataCurrentMonth['8.1'].toFixed(2)}%`],
 								yAdjust: 0,
 							},
 							legend80: {
 								...phpLabel,
-								yValue: dataLatestMonth['8.0'],
-								xValue: latestMonth,
+								yValue: dataCurrentMonth['8.0'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['8.0'].color,
-								content: [`8.0: ${dataLatestMonth['8.0'].toFixed(2)}%`],
+								content: [`8.0: ${dataCurrentMonth['8.0'].toFixed(2)}%`],
 								yAdjust: 0,
 							},
 							legend74: {
 								...phpLabel,
-								yValue: dataLatestMonth['7.4'],
-								xValue: latestMonth,
+								yValue: dataCurrentMonth['7.4'],
+								xValue: currentMonth,
 								backgroundColor: phpVersions['7.4'].color,
-								content: [`7.4: ${dataLatestMonth['7.4'].toFixed(2)}%`],
+								content: [`7.4: ${dataCurrentMonth['7.4'].toFixed(2)}%`],
 								yAdjust: 0,
 							},
 							legend73: {
