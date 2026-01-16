@@ -38,7 +38,7 @@
 
 <body>
 	<h1>WordPress PHP version usage over time</h1>
-	<p>Stats extracted from <a href="https://docs.google.com/spreadsheets/d/1avaM9ta3SEUhyeEk2eTUHNx0BZKGAFXMJb8Zo3CyyGQ/edit#gid=904528857">the WP PHP usage over time chart</a>, <a href="https://wordpress.org/about/stats/">the WordPress.org stats page</a>, and <a href="https://core.trac.wordpress.org/ticket/62622">data being tracked in the core Trac ticket</a>.</p>
+	<p>Stats extracted from <a href="https://wordpress.org/about/stats/">the WordPress.org stats page</a> and <a href="https://core.trac.wordpress.org/ticket/64494">data being tracked in the core Trac ticket</a>.</p>
 	<p>* Numbers for future months are roughly projected based on the change in the prior months.</p>
 	<p>The intention is to help inform the decision of when to bump the minimum PHP version requirement for WordPress core.</p>
 	<div>
@@ -48,21 +48,21 @@
 		<div id="table"></div>
 	</div>
 	<script>
-		//	Date      	7.2  	7.3  	7.4  	8.0  	8.1  	8.2  	8.3  	8.4
+		//	Date      	7.2  	7.3  	7.4  	8.0  	8.1  	8.2  	8.3  	8.4  	8.5
 		const rawData = `
-			2025-01-01	2.680	3.140	32.600	9.550	19.250	21.300	5.800	0.300
-			2025-02-01	2.630	3.040	31.800	9.400	19.000	22.100	6.400	0.400
-			2025-03-01	2.500	2.930	31.000	9.250	18.750	22.900	7.000	0.500
-			2025-04-01	2.390	2.770	30.200	9.100	18.500	23.700	7.600	0.700
-			2025-05-01	2.300	2.680	29.390	8.890	18.410	24.300	8.530	0.970
-			2025-06-01	2.220	2.560	28.860	8.660	18.080	24.930	9.080	1.230
-			2025-07-01	2.160	2.470	28.220	8.480	17.550	25.490	9.860	1.510
-			2025-08-01	2.100	2.410	26.630	8.000	17.370	26.040	11.170	2.090
-			2025-09-01	2.050	2.340	25.660	7.630	17.010	26.380	12.220	2.620
-			2025-10-01	1.990	2.260	24.800	7.260	16.590	26.710	13.220	3.190
-			2025-11-01	1.920	2.180	23.850	6.940	16.150	26.930	14.370	3.780
-			2025-12-01	1.870	2.110	22.920	6.440	15.920	27.450	15.160	4.250
-			2026-01-01	1.820	2.050	22.330	5.820	15.500	27.320	16.470	4.790
+			2025-01-01	2.68	3.14	32.60	9.55	19.25	21.30	5.80	0.30
+			2025-02-01	2.63	3.04	31.80	9.40	19.00	22.10	6.40	0.40
+			2025-03-01	2.50	2.93	31.00	9.25	18.75	22.90	7.00	0.50
+			2025-04-01	2.39	2.77	30.20	9.10	18.50	23.70	7.60	0.70
+			2025-05-01	2.30	2.68	29.39	8.89	18.41	24.30	8.53	0.97
+			2025-06-01	2.22	2.56	28.86	8.66	18.08	24.93	9.08	1.23
+			2025-07-01	2.16	2.47	28.22	8.48	17.55	25.49	9.86	1.51
+			2025-08-01	2.10	2.41	26.63	8.00	17.37	26.04	11.17	2.09
+			2025-09-01	2.05	2.34	25.66	7.63	17.01	26.38	12.22	2.62
+			2025-10-01	1.99	2.26	24.80	7.26	16.59	26.71	13.22	3.19
+			2025-11-01	1.92	2.18	23.85	6.94	16.15	26.93	14.37	3.78	0.00
+			2025-12-01	1.87	2.11	22.92	6.44	15.92	27.45	15.16	4.25	0.10
+			2026-01-01	1.82	2.05	22.33	5.82	15.50	27.32	16.47	4.79	0.26
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
@@ -77,6 +77,7 @@
 				'8.2': parseFloat(values[5]),
 				'8.3': parseFloat(values[6]),
 				'8.4': parseFloat(values[7]),
+				'8.5': values[8] ? parseFloat(values[8]) : null,
 			};
 			const month = date.split('-').slice(0, 2).join('/');
 			acc[month] = vals;
@@ -92,12 +93,14 @@
 		const changeFromLastMonth = {
 			'7.3': 1 / dataPreviousMonth['7.3'] * dataCurrentMonth['7.3'],
 			'7.2': 1 / dataPreviousMonth['7.2'] * dataCurrentMonth['7.2'],
+			'7.4': 1 / dataPreviousMonth['7.4'] * dataCurrentMonth['7.4'],
 		};
 
+		const deceleration74 = 1.0;
 		const deceleration73 = 0.9;
 		const deceleration72 = 0.8;
 
-		// Projections for 7.3 and 7.2 for the next few months
+		// Projections for the next few months
 		const projectionLabels = [
 			'2026/02',
 			'2026/03',
@@ -108,12 +111,16 @@
 		for (let i = 0; i < projectionLabels.length; i++) {
 			const monthLabel = `${projectionLabels[i]}*`;
 			dataByMonth[monthLabel] = {
+				'7.4': (dataCurrentMonth['7.4'] * Math.pow(changeFromLastMonth['7.4'], deceleration74 * (i + 1))),
 				'7.3': (dataCurrentMonth['7.3'] * Math.pow(changeFromLastMonth['7.3'], deceleration73 * (i + 1))),
 				'7.2': (dataCurrentMonth['7.2'] * Math.pow(changeFromLastMonth['7.2'], deceleration72 * (i + 1))),
 			};
 		}
 
 		const phpVersions = {
+			'8.5': {
+				color: '#444444',
+			},
 			'8.4': {
 				color: '#1E88E5',
 			},
@@ -181,6 +188,14 @@
 					},
 					annotation: {
 						annotations: {
+							legend85: {
+								...phpLabel,
+								yValue: dataLatestMonth['8.5'],
+								xValue: latestMonth,
+								backgroundColor: phpVersions['8.5'].color,
+								content: [`8.5: ${dataLatestMonth['8.5'].toFixed(2)}%`],
+								yAdjust: -5,
+							},
 							legend84: {
 								...phpLabel,
 								yValue: dataLatestMonth['8.4'],
@@ -248,12 +263,12 @@
 							now: {
 								xMin: currentMonth,
 								xMax: currentMonth,
-								borderWidth: 1,
+								borderWidth: 2,
 							},
 							fivepercent: {
 								yMin: 5,
 								yMax: 5,
-								borderWidth: 1,
+								borderWidth: 2,
 							},
 						}
 					}
