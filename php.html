@@ -63,6 +63,9 @@
 			2025-11-01	1.92	2.18	23.85	6.94	16.15	26.93	14.37	3.78	0.00
 			2025-12-01	1.87	2.11	22.92	6.44	15.92	27.45	15.16	4.25	0.10
 			2026-01-01	1.82	2.05	22.33	5.82	15.50	27.32	16.47	4.79	0.26
+			2026-02-01	1.77	1.97	21.71	5.51	14.98	26.78	17.78	5.35	0.56
+			2026-03-01	1.72	1.90	21.10	5.19	14.46	26.25	19.09	5.92	0.87
+			2026-04-01	1.67	1.82	20.48	4.88	13.94	25.71	20.40	6.48	1.17
 		`;
 		const data = rawData.trim().split('\n').map((line) => line.trim().split('\t'));
 
@@ -154,9 +157,9 @@
 			xAdjust: 40,
 			color: '#fff',
 			font: {
-				size: 12,
+				size: 11,
 			},
-			padding: 3,
+			padding: 2,
 			callout: {
 				display: false
 			},
@@ -206,7 +209,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['8.5'].color,
 								content: [`8.5: ${dataCurrentMonth['8.5'].toFixed(2)}%`],
-								yAdjust: -5,
+								yAdjust: 17,
 							},
 							legend84: {
 								...phpLabel,
@@ -222,7 +225,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['8.3'].color,
 								content: [`8.3: ${dataCurrentMonth['8.3'].toFixed(2)}%`],
-								yAdjust: 0,
+								yAdjust: 10,
 							},
 							legend82: {
 								...phpLabel,
@@ -254,7 +257,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['7.4'].color,
 								content: [`7.4: ${dataCurrentMonth['7.4'].toFixed(2)}%`],
-								yAdjust: 0,
+								yAdjust: -10,
 							},
 							legend73: {
 								...phpLabel,
