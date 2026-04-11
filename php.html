@@ -171,6 +171,12 @@
 						...Object.values(dataByMonth).map((data) => data[version]),
 					],
 					borderColor: phpVersions[version].color,
+					segment: {
+						borderDash: ctx => {
+							const labels = ctx.chart.data.labels;
+							return labels[ctx.p1DataIndex]?.endsWith('*') ? [5, 5] : undefined;
+						},
+					},
 				})),
 			},
 			options: {
