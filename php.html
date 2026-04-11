@@ -101,8 +101,6 @@
 		const dataCurrentMonth = dataByMonth[currentMonth];
 
 		const changeFromLastMonth = {
-			'7.3': 1 / dataPreviousMonth['7.3'] * dataCurrentMonth['7.3'],
-			'7.2': 1 / dataPreviousMonth['7.2'] * dataCurrentMonth['7.2'],
 			'7.4': 1 / dataPreviousMonth['7.4'] * dataCurrentMonth['7.4'],
 		};
 
@@ -117,8 +115,6 @@
 			const monthLabel = `${projectionLabels[i]}*`;
 			dataByMonth[monthLabel] = {
 				'7.4': (dataCurrentMonth['7.4'] * Math.pow(changeFromLastMonth['7.4'], deceleration74 * (i + 1))),
-				'7.3': (dataCurrentMonth['7.3'] * Math.pow(changeFromLastMonth['7.3'], deceleration73 * (i + 1))),
-				'7.2': (dataCurrentMonth['7.2'] * Math.pow(changeFromLastMonth['7.2'], deceleration72 * (i + 1))),
 			};
 		}
 
@@ -297,11 +293,6 @@
 			tableHeadRow.appendChild(tableHeadCell);
 		});
 
-		const headCell7273 = document.createElement('th');
-		headCell7273.innerText = 'PHP 7.2+7.3';
-		headCell7273.setAttribute('scope', 'col');
-		tableHeadRow.appendChild(headCell7273);
-
 		tableHead.appendChild(tableHeadRow);
 
 		Object.keys(dataByMonth).forEach((month) => {
@@ -315,18 +306,6 @@
 				tableBodyCell.innerText = dataByMonth[month][version] ? dataByMonth[month][version].toFixed(2) + '%' : '';
 				tableBodyRow.appendChild(tableBodyCell);
 			});
-
-			const tableCell7273 = document.createElement('td');
-			const summed7273 = dataByMonth[month]['7.2'] + dataByMonth[month]['7.3'];
-			tableCell7273.innerText = summed7273.toFixed(2) + '%';
-
-			tableCell7273.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
-
-			if ( summed7273 < 5 ) {
-				tableCell7273.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
-			}
-
-			tableBodyRow.appendChild(tableCell7273);
 
 			tableBody.appendChild(tableBodyRow);
 		});
