@@ -50,7 +50,6 @@
 	<script>
 		//	Date      	7.4  	8.0  	8.1  	8.2  	8.3  	8.4  	8.5  	8.6
 		const rawData = `
-			2025-01-01	32.60	9.55	19.25	21.30	5.80	0.30
 			2025-02-01	31.80	9.40	19.00	22.10	6.40	0.40
 			2025-03-01	31.00	9.25	18.75	22.90	7.00	0.50
 			2025-04-01	30.20	9.10	18.50	23.70	7.60	0.70
@@ -122,7 +121,7 @@
 		const projectionLabels = [1, 2, 3, 4].map(i => offsetMonth(currentMonth, i));
 
 		for (let i = 0; i < projectionLabels.length; i++) {
-			const monthLabel = `${projectionLabels[i]}*`;
+			const monthLabel = `${projectionLabels[i]} (projected)`;
 			dataByMonth[monthLabel] = versionKeys.reduce((acc, version) => {
 				const curr = dataCurrentMonth[version];
 				const ratio = changeFromLastMonth[version];
@@ -237,7 +236,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['8.5'].color,
 								content: [`8.5: ${dataCurrentMonth['8.5'].toFixed(2)}%`],
-								yAdjust: -12,
+								yAdjust: 0,
 							},
 							legend84: {
 								...phpLabel,
