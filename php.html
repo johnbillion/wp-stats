@@ -91,7 +91,8 @@
 			return acc;
 		}, {});
 
-		const currentMonth = Object.keys(dataByMonth).pop();
+		const actualMonths = Object.keys(dataByMonth);
+		const currentMonth = actualMonths[actualMonths.length - 1];
 
 		function offsetMonth(monthStr, offset) {
 			const [year, month] = monthStr.split('/').map(Number);
@@ -106,46 +107,66 @@
 		// The PHP versions we track, ordered oldest to newest.
 		const versionKeys = ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6'];
 
-		// Number of months the trend is averaged over. A single month is too
-		// sensitive to one-off events, e.g. the PHP RCE in October 2026 that
-		// drove an unusually large wave of upgrades in the November figures.
-		const trendMonths = 3;
-		const dataTrendStart = dataByMonth[offsetMonth(currentMonth, -trendMonths)];
+		// Number of recent month-over-month changes the trend is based on.
+		// Keep this odd so the median is always one real month's change.
+		const trendMonths = 5;
+		const trendWindow = actualMonths.slice(-(trendMonths + 1));
 
-		// Average month-over-month multiplicative change for each version
-		// (geometric mean over trendMonths). Versions without a value at the
-		// start of the window (e.g. a freshly released one) get null and are
-		// held constant in the projection below.
-		const changeFromLastMonth = versionKeys.reduce((acc, version) => {
-			const prev = dataTrendStart?.[version];
-			const curr = dataCurrentMonth[version];
-			acc[version] = (prev && curr) ? Math.pow(curr / prev, 1 / trendMonths) : null;
+		function median(values) {
+			const sorted = [...values].sort((a, b) => a - b);
+			const mid = Math.floor(sorted.length / 2);
+			return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+		}
+
+		// Typical monthly change for each version, in percentage points.
+		//
+		// The median is used instead of an average so that a one-off event,
+		// e.g. the PHP RCE in October 2026 that drove an unusually large wave
+		// of upgrades in the November figures, doesn't dominate the trend.
+		// The upgrades from that event are still kept: the projection starts
+		// from the latest real figures, it just doesn't assume the same jump
+		// happens again every month.
+		//
+		// Percentage points are used instead of a growth ratio because the
+		// shares have to add up to roughly 100%. Ratios make small, young
+		// versions grow explosively and let the total drift upwards.
+		const monthlyChange = versionKeys.reduce((acc, version) => {
+			const changes = [];
+			for (let i = 1; i < trendWindow.length; i++) {
+				const prev = dataByMonth[trendWindow[i - 1]][version];
+				const curr = dataByMonth[trendWindow[i]][version];
+				if (prev != null && curr != null) {
+					changes.push(curr - prev);
+				}
+			}
+			// Versions without enough history (e.g. a fresh release) are held steady.
+			acc[version] = changes.length ? median(changes) : 0;
 			return acc;
 		}, {});
 
-		// Dampen the projected trend a little each month, since these shifts
-		// tend to slow down over time rather than continue at full pace.
+		// Each projected month moves by a smaller step than the one before,
+		// since these shifts tend to slow down over time rather than continue
+		// at full pace. With 0.8, the steps are 1, 0.8, 0.64, 0.51, ... of the
+		// typical monthly change.
 		const deceleration = 0.8;
 
 		// Projections for the next few months, for every tracked version.
 		const projectionLabels = [1, 2, 3, 4].map(i => offsetMonth(currentMonth, i));
 
-		for (let i = 0; i < projectionLabels.length; i++) {
-			const monthLabel = `${projectionLabels[i]} (projected)`;
-			dataByMonth[monthLabel] = versionKeys.reduce((acc, version) => {
+		projectionLabels.forEach((label, i) => {
+			// Sum of the decaying steps so far: 1, 1.8, 2.44, 2.95, ...
+			const steps = (1 - Math.pow(deceleration, i + 1)) / (1 - deceleration);
+			dataByMonth[`${label} (projected)`] = versionKeys.reduce((acc, version) => {
 				const curr = dataCurrentMonth[version];
-				const ratio = changeFromLastMonth[version];
 				if (curr == null) {
 					acc[version] = null;
-				} else if (ratio == null) {
-					// No prior data to extrapolate from — hold steady.
-					acc[version] = curr;
 				} else {
-					acc[version] = curr * Math.pow(ratio, deceleration * (i + 1));
+					const projected = Math.max(0, curr + monthlyChange[version] * steps);
+					acc[version] = Math.round(projected * 100) / 100;
 				}
 				return acc;
 			}, {});
-		}
+		});
 
 		const phpVersions = {
 			'8.6': {
@@ -200,7 +221,7 @@
 					segment: {
 						borderDash: ctx => {
 							const labels = ctx.chart.data.labels;
-							return labels[ctx.p1DataIndex]?.endsWith('*') ? [5, 5] : undefined;
+							return labels[ctx.p1DataIndex]?.endsWith('(projected)') ? [5, 5] : undefined;
 						},
 					},
 				})),
