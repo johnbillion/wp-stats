@@ -101,19 +101,25 @@
 			return `${newYear}/${String(newMonth).padStart(2, '0')}`;
 		}
 
-		const dataPreviousMonth = dataByMonth[offsetMonth(currentMonth, -1)];
 		const dataCurrentMonth = dataByMonth[currentMonth];
 
 		// The PHP versions we track, ordered oldest to newest.
 		const versionKeys = ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6'];
 
-		// Month-over-month multiplicative change for each version. Versions
-		// without a value in the previous month (e.g. a freshly released one)
-		// get null and are held constant in the projection below.
+		// Number of months the trend is averaged over. A single month is too
+		// sensitive to one-off events, e.g. the PHP RCE in October 2026 that
+		// drove an unusually large wave of upgrades in the November figures.
+		const trendMonths = 3;
+		const dataTrendStart = dataByMonth[offsetMonth(currentMonth, -trendMonths)];
+
+		// Average month-over-month multiplicative change for each version
+		// (geometric mean over trendMonths). Versions without a value at the
+		// start of the window (e.g. a freshly released one) get null and are
+		// held constant in the projection below.
 		const changeFromLastMonth = versionKeys.reduce((acc, version) => {
-			const prev = dataPreviousMonth[version];
+			const prev = dataTrendStart?.[version];
 			const curr = dataCurrentMonth[version];
-			acc[version] = (prev && curr) ? (curr / prev) : null;
+			acc[version] = (prev && curr) ? Math.pow(curr / prev, 1 / trendMonths) : null;
 			return acc;
 		}, {});
 
