@@ -39,7 +39,7 @@
 <body>
 	<h1>WordPress PHP version usage over time</h1>
 	<p>Stats extracted from <a href="https://wordpress.org/about/stats/">the WordPress.org stats page</a> and <a href="https://core.trac.wordpress.org/ticket/64494">data being tracked in the core Trac ticket</a>.</p>
-	<p>* Numbers for future months are roughly projected based on the change in the prior months.</p>
+	<p>* Numbers for future months are roughly projected from each version's recent trend and the path the previous PHP version took at the same age.</p>
 	<p>The intention is to help inform the decision of when to bump the minimum PHP version requirement for WordPress core.</p>
 	<div>
 		<canvas id="canvas"
@@ -142,26 +142,65 @@
 			return acc;
 		}, {});
 
-		// Each projected month moves by a smaller step than the one before,
-		// since these shifts tend to slow down over time rather than continue
-		// at full pace. With 0.8, the steps are 1, 0.8, 0.64, 0.51, ... of the
-		// typical monthly change.
-		const deceleration = 0.8;
+		// Each version's share follows a rough bell curve over its life: a slow
+		// start, faster growth, a peak, then decline. PHP releases land every
+		// November, so the version before each one is a year further along the
+		// same curve. Each version's projection bends from its current pace
+		// towards the path its predecessor took at the same age a year ago.
+		function changeInto(version, monthIndex) {
+			const prev = dataByMonth[actualMonths[monthIndex - 1]]?.[version];
+			const curr = dataByMonth[actualMonths[monthIndex]]?.[version];
+			return (prev != null && curr != null) ? curr - prev : null;
+		}
+
+		// Averaged over five months to smooth out noise in the stats.
+		function smoothedChangeInto(version, monthIndex) {
+			const changes = [-2, -1, 0, 1, 2]
+				.map(offset => changeInto(version, monthIndex + offset))
+				.filter(change => change != null);
+			return changes.length ? changes.reduce((a, b) => a + b) / changes.length : null;
+		}
+
+		const currentIndex = actualMonths.length - 1;
+		const yearAgoIndex = currentIndex - 12;
+
+		// The predecessor's path is scaled by relative size, since a version
+		// with twice the share gains or loses about twice as much at the same
+		// stage. Below 1% the ratio is too noisy to use.
+		const predecessorScale = versionKeys.reduce((acc, version, i) => {
+			const predecessor = versionKeys[i - 1];
+			const predecessorThen = predecessor ? dataByMonth[actualMonths[yearAgoIndex]]?.[predecessor] : null;
+			acc[version] = (predecessorThen != null && predecessorThen >= 1)
+				? dataCurrentMonth[version] / predecessorThen
+				: 1;
+			return acc;
+		}, {});
+
+		// Weight given to the current pace in each projected month: 0.8, 0.64,
+		// 0.51, ... The rest comes from the predecessor's path.
+		const currentPaceWeight = 0.8;
 
 		// Projections for the next few months, for every tracked version.
 		const projectionLabels = [1, 2, 3, 4, 5, 6].map(i => offsetMonth(currentMonth, i));
+		const projectedValue = { ...dataCurrentMonth };
 
 		projectionLabels.forEach((label, i) => {
-			// Sum of the decaying steps so far: 1, 1.8, 2.44, 2.95, 3.36, 3.69
-			const steps = (1 - Math.pow(deceleration, i + 1)) / (1 - deceleration);
-			dataByMonth[`${label} (projected)`] = versionKeys.reduce((acc, version) => {
-				const curr = dataCurrentMonth[version];
-				if (curr == null) {
+			const step = i + 1;
+			const weight = Math.pow(currentPaceWeight, step);
+			dataByMonth[`${label} (projected)`] = versionKeys.reduce((acc, version, v) => {
+				if (projectedValue[version] == null) {
 					acc[version] = null;
-				} else {
-					const projected = Math.max(0, curr + monthlyChange[version] * steps);
-					acc[version] = Math.round(projected * 100) / 100;
+					return acc;
 				}
+				const predecessor = versionKeys[v - 1];
+				const predecessorChange = predecessor ? smoothedChangeInto(predecessor, yearAgoIndex + step) : null;
+				// 7.4 has no tracked predecessor so it carries on at its current pace.
+				const pathChange = predecessorChange != null
+					? predecessorChange * predecessorScale[version]
+					: monthlyChange[version];
+				const change = weight * monthlyChange[version] + (1 - weight) * pathChange;
+				projectedValue[version] = Math.max(0, projectedValue[version] + change);
+				acc[version] = Math.round(projectedValue[version] * 100) / 100;
 				return acc;
 			}, {});
 		});
