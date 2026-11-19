@@ -263,26 +263,32 @@
 
 		// The annotation plugin rounds x values to whole category indexes,
 		// so release markers are drawn by hand to place them within a month.
+		function releaseMarkers(chart) {
+			const { scales: { x } } = chart;
+			const labels = chart.data.labels;
+			return releases.flatMap(({ type, version, date }) => {
+				const [year, month, day] = date.split('-').map(Number);
+				const monthLabel = `${year}/${String(month).padStart(2, '0')}`;
+				const index = labels.findIndex(label => label.startsWith(monthLabel));
+				if (index === -1) {
+					return [];
+				}
+				const daysInMonth = new Date(year, month, 0).getDate();
+				const start = x.getPixelForValue(index);
+				const end = x.getPixelForValue(index + 1);
+				const xPos = start + (end - start) * (day - 1) / daysInMonth;
+				return [{ ...releaseTypes[type], version, xPos }];
+			});
+		}
+
+		// Lines are drawn before the datasets so the data lines and the
+		// current-month labels sit on top of them. The release labels are
+		// drawn last so they stay readable.
 		const releasePlugin = {
 			id: 'releases',
-			afterDatasetsDraw(chart) {
-				const { ctx, chartArea, scales: { x } } = chart;
-				const labels = chart.data.labels;
-				releases.forEach(({ type, version, date }) => {
-					const { name, color, row } = releaseTypes[type];
-					const [year, month, day] = date.split('-').map(Number);
-					const monthLabel = `${year}/${String(month).padStart(2, '0')}`;
-					const index = labels.findIndex(label => label.startsWith(monthLabel));
-					if (index === -1) {
-						return;
-					}
-					const daysInMonth = new Date(year, month, 0).getDate();
-					const start = x.getPixelForValue(index);
-					const end = x.getPixelForValue(index + 1);
-					const xPos = start + (end - start) * (day - 1) / daysInMonth;
-					const text = `${name} ${version}`;
-					const labelTop = chartArea.top + row * 18;
-
+			beforeDatasetsDraw(chart) {
+				const { ctx, chartArea } = chart;
+				releaseMarkers(chart).forEach(({ color, xPos }) => {
 					ctx.save();
 					ctx.strokeStyle = color;
 					ctx.lineWidth = 2;
@@ -291,7 +297,16 @@
 					ctx.moveTo(xPos, chartArea.top);
 					ctx.lineTo(xPos, chartArea.bottom);
 					ctx.stroke();
+					ctx.restore();
+				});
+			},
+			afterDatasetsDraw(chart) {
+				const { ctx, chartArea } = chart;
+				releaseMarkers(chart).forEach(({ name, color, row, version, xPos }) => {
+					const text = `${name} ${version}`;
+					const labelTop = chartArea.top + row * 18;
 
+					ctx.save();
 					ctx.font = '11px sans-serif';
 					const width = ctx.measureText(text).width + 6;
 					const labelX = Math.min(xPos, chartArea.right - width / 2);
@@ -374,7 +389,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['8.4'].color,
 								content: [`8.4: ${dataCurrentMonth['8.4'].toFixed(2)}%`],
-								yAdjust: 0,
+								yAdjust: -4,
 							},
 							legend83: {
 								...phpLabel,
@@ -382,7 +397,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['8.3'].color,
 								content: [`8.3: ${dataCurrentMonth['8.3'].toFixed(2)}%`],
-								yAdjust: -5,
+								yAdjust: 0,
 							},
 							legend82: {
 								...phpLabel,
@@ -390,7 +405,7 @@
 								xValue: currentMonth,
 								backgroundColor: phpVersions['8.2'].color,
 								content: [`8.2: ${dataCurrentMonth['8.2'].toFixed(2)}%`],
-								yAdjust: 5,
+								yAdjust: 0,
 							},
 							legend81: {
 								...phpLabel,
