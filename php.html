@@ -206,8 +206,70 @@
 			},
 		};
 
+		const releaseTypes = {
+			wp: { name: 'WordPress', color: '#3858e9', row: 0 },
+			php: { name: 'PHP', color: '#777bb3', row: 1 },
+		};
+
+		const releases = [
+			{ type: 'php', version: '8.5', date: '2025-11-20' },
+			{ type: 'wp', version: '6.9', date: '2025-12-02' },
+			{ type: 'wp', version: '7.0', date: '2026-05-20' },
+			{ type: 'wp', version: '7.1', date: '2026-08-19' },
+			{ type: 'php', version: '8.6', date: '2026-11-19' },
+			{ type: 'wp', version: '7.2', date: '2026-12-08' },
+			// Not announced yet, this is a rough guess.
+			{ type: 'wp', version: '7.3', date: '2027-04-15' },
+		];
+
+		// The annotation plugin rounds x values to whole category indexes,
+		// so release markers are drawn by hand to place them within a month.
+		const releasePlugin = {
+			id: 'releases',
+			afterDatasetsDraw(chart) {
+				const { ctx, chartArea, scales: { x } } = chart;
+				const labels = chart.data.labels;
+				releases.forEach(({ type, version, date }) => {
+					const { name, color, row } = releaseTypes[type];
+					const [year, month, day] = date.split('-').map(Number);
+					const monthLabel = `${year}/${String(month).padStart(2, '0')}`;
+					const index = labels.findIndex(label => label.startsWith(monthLabel));
+					if (index === -1) {
+						return;
+					}
+					const daysInMonth = new Date(year, month, 0).getDate();
+					const start = x.getPixelForValue(index);
+					const end = x.getPixelForValue(index + 1);
+					const xPos = start + (end - start) * (day - 1) / daysInMonth;
+					const text = `${name} ${version}`;
+					const labelTop = chartArea.top + row * 18;
+
+					ctx.save();
+					ctx.strokeStyle = color;
+					ctx.lineWidth = 2;
+					ctx.setLineDash([2, 3]);
+					ctx.beginPath();
+					ctx.moveTo(xPos, chartArea.top);
+					ctx.lineTo(xPos, chartArea.bottom);
+					ctx.stroke();
+
+					ctx.font = '11px sans-serif';
+					const width = ctx.measureText(text).width + 6;
+					const labelX = Math.min(xPos, chartArea.right - width / 2);
+					ctx.fillStyle = color;
+					ctx.fillRect(labelX - width / 2, labelTop, width, 16);
+					ctx.fillStyle = '#fff';
+					ctx.textAlign = 'center';
+					ctx.textBaseline = 'middle';
+					ctx.fillText(text, labelX, labelTop + 8);
+					ctx.restore();
+				});
+			},
+		};
+
 		new Chart(ctx, {
 			type: 'line',
+			plugins: [releasePlugin],
 			data: {
 				labels: Object.keys(dataByMonth),
 				datasets: Object.keys(phpVersions).map((version) => ({
