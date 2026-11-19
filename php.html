@@ -50,8 +50,6 @@
 	<script>
 		//	Date      	7.4  	8.0  	8.1  	8.2  	8.3  	8.4  	8.5  	8.6
 		const rawData = `
-			2025-03-01	31.00	9.25	18.75	22.90	7.00	0.50
-			2025-04-01	30.20	9.10	18.50	23.70	7.60	0.70
 			2025-05-01	29.39	8.89	18.41	24.30	8.53	0.97
 			2025-06-01	28.86	8.66	18.08	24.93	9.08	1.23
 			2025-07-01	28.22	8.48	17.55	25.49	9.86	1.51
@@ -151,10 +149,10 @@
 		const deceleration = 0.8;
 
 		// Projections for the next few months, for every tracked version.
-		const projectionLabels = [1, 2, 3, 4].map(i => offsetMonth(currentMonth, i));
+		const projectionLabels = [1, 2, 3, 4, 5, 6].map(i => offsetMonth(currentMonth, i));
 
 		projectionLabels.forEach((label, i) => {
-			// Sum of the decaying steps so far: 1, 1.8, 2.44, 2.95, ...
+			// Sum of the decaying steps so far: 1, 1.8, 2.44, 2.95, 3.36, 3.69
 			const steps = (1 - Math.pow(deceleration, i + 1)) / (1 - deceleration);
 			dataByMonth[`${label} (projected)`] = versionKeys.reduce((acc, version) => {
 				const curr = dataCurrentMonth[version];
